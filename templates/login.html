@@ -6,15 +6,25 @@
 
 
 {% block body %}
-<div>
-    <h1>Sila Login</h1>
-    <form action="/" method="POST">
-        <span>Nama Pengguna: </span><input class="username" type="text" name="username" id="username">
-        <br>
-        <span>Kata Laluan:   </span><input class="password" type="text" name="password" id="password">
-        <br>
-        <input class="submit" type="submit" value="Login">
-    </form>
+
+<div class="login-content">
+    <img src="{{url_for('static', filename='img/kmpp.jpg')}}" alt="kmpp logo">
+    <div class="title">
+        <span>Sila Login</span>
+    </div>
+    <div class="login-form">
+        <form action="/" method="POST">
+            <span>ID Pengguna: </span><input class="username" type="text" name="username" id="username">
+            <br>
+            <span>Kata Laluan:   </span><input class="password" type="text" name="password" id="password">
+            <br>
+            <div class="submit-button">
+                <input class="submit" type="submit" value="Login">
+            </div>
+            
+        </form>
+    </div>
+    <div class="footer-bar"><span></span></div>
 </div>
 
 

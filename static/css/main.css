@@ -1,0 +1,39 @@
+html, body {
+    display: inline-block;
+    text-align: center;
+    width: auto;
+    height: auto;
+    font-family: sans-serif;
+}
+
+.title, .footer-bar {
+    background-color: rgb(10, 10, 97);
+    text-align: center;
+    font-weight: bold;
+    color: white;
+    font-size: 12px;
+    height: 12px;
+    width: 500px;
+}
+
+div.login-form {
+    padding: 20px;
+    width: 350px;
+    height: auto;
+    text-align: center;
+    display: inline-block;
+    font-size: 12px;
+}
+
+input {
+    margin: 2px;
+}
+
+div.submit-button {
+    display: block;
+    text-align: center;
+}
+
+input.submit {
+    font-size: 12px;
+}
