@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+
+{% block body %}
+<div>
+    <h1>Sila Login</h1>
+    <form action="/" method="POST">
+        <span>Nama Pengguna: </span><input class="username" type="text" name="username" id="username">
+        <br>
+        <span>Kata Laluan:   </span><input class="password" type="text" name="password" id="password">
+        <br>
+        <input class="submit" type="submit" value="Login">
+    </form>
+</div>
+
+
+{% endblock %}
