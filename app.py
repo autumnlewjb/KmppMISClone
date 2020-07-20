@@ -37,5 +37,10 @@ def logout():
     return render_template('login.html')
 
 
+@app.route('/outing', methods=['GET'])
+def outing():
+    return render_template('outing.html')
+
+
 if __name__ == '__main__':
     app.run(debug=True)

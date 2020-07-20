@@ -63,7 +63,7 @@ section {
     border: 0;
     display: inline-block;
 }
-section.sidebar {
+section.sidebar, section.sidebar-student {
     background-color: rgb(8, 8, 100);
     display: block;
     float: left;
@@ -80,11 +80,15 @@ section.content {
     height: 100vh;
 }
 
-section.sidebar > div {
+section.sidebar > div, section.sidebar-student > div {
     color: white;
     text-decoration: none;
     padding: 8px;
     font-size: 12px;
+}
+
+section.sidebar-student {
+    text-align: center;
 }
 
 a {
@@ -106,4 +110,27 @@ section.content > div > img {
     text-align: center;
     top: 100px;
     position: relative;
+}
+
+div.menu > table, div.menu > table > tbody > tr, div.menu > table > tbody > tr > td {
+    border-collapse: collapse;
+    border: 1px solid white;
+    font-weight: bold;
+    font-size: 14px;
+    padding: 0;
+    width: 90%;
+    margin: 5px;
+}
+
+a.button {
+    display: inline-block;
+    width: 95%;
+    background-color: transparent;
+    padding: 5px;
+    margin: 0;
+    border: 0;
+}
+
+a.button:hover {
+    background-color: rgba(245, 245, 245, 0.733);
 }
