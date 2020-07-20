@@ -18,22 +18,32 @@ html, body {
 
 div.login-form {
     padding: 20px;
-    width: 350px;
     height: auto;
     text-align: center;
     display: inline-block;
     font-size: 12px;
 }
 
-input {
+input.submit {
+    font-size: 12px;
+}
+
+label {
+    width: 200px;
+    text-align: left;
     margin: 2px;
 }
 
-div.submit-button {
-    display: block;
-    text-align: center;
+input {
+    text-align: left;
+    margin: 2px;
 }
 
-input.submit {
-    font-size: 12px;
+tr, td {
+    width: auto;
+    text-align: left;
+}
+
+tr.submit-button > td {
+    text-align: center;
 }

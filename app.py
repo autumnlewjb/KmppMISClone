@@ -19,12 +19,11 @@ def login():
     else:
         username = request.form['username']
         password = request.form['password']
-        user = Login(username=username, password=password)
-
-        db.session.add(user)
-        db.session.commit()
-
-        return render_template('homepage.html', username=username, password=password)
+        
+        if username == 'pelajar' and password == 'pelajarkmpp':
+            return render_template('homepage.html')
+        else:
+            return "Invalid username or password."
 
 
 if __name__ == '__main__':

@@ -14,14 +14,20 @@
     </div>
     <div class="login-form">
         <form action="/" method="POST">
-            <span>ID Pengguna: </span><input class="username" type="text" name="username" id="username">
-            <br>
-            <span>Kata Laluan:   </span><input class="password" type="text" name="password" id="password">
-            <br>
-            <div class="submit-button">
-                <input class="submit" type="submit" value="Login">
-            </div>
-            
+            <table>
+                <tr>
+                    <td><label>ID Pengguna: </label></td>
+                    <td><input class="username" type="text" name="username" id="username"></td>
+                </tr>
+                <tr>
+                    <td><label>Kata Laluan:   </label></td>
+                    <td><input class="password" type="text" name="password" id="password"></td>
+                </tr>
+                <tr class="submit-button">
+                    <td colspan="2"><input class="submit" type="submit" value="Login"></td>
+                </tr>
+
+            </table>
         </form>
     </div>
     <div class="footer-bar"><span></span></div>
