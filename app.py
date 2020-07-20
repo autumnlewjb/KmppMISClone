@@ -19,11 +19,20 @@ def login():
     else:
         username = request.form['username']
         password = request.form['password']
-        
         if username == 'pelajar' and password == 'pelajarkmpp':
             return render_template('homepage.html')
         else:
             return "Invalid username or password."
+
+
+@app.route('/student', methods=['GET'])
+def student():
+    return render_template('student.html')
+
+
+@app.route('/logout', methods=['GET'])
+def logout():
+    return render_template('login.html')
 
 
 if __name__ == '__main__':

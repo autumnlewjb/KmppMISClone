@@ -1,11 +1,19 @@
 html, body {
     display: inline-block;
     text-align: center;
-    width: auto;
-    height: auto;
+    width: 100vw;
+    height: 100vh;
     font-family: sans-serif;
+    padding: 0;
+    border: 0;
+    margin: 0;
+    overflow: hidden;
 }
 
+/* for login page */
+div.login-content {
+    display: inline-block;
+}
 .title, .footer-bar {
     background-color: rgb(10, 10, 97);
     text-align: center;
@@ -46,4 +54,56 @@ tr, td {
 
 tr.submit-button > td {
     text-align: center;
+}
+
+/* for homepage */
+section {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    display: inline-block;
+}
+section.sidebar {
+    background-color: rgb(8, 8, 100);
+    display: block;
+    float: left;
+    width: 20vw;
+    height: 100vh;
+    text-align: left;;
+}
+
+section.content {
+    background-color: white;
+    display: block;
+    float: right;
+    width: 80vw;
+    height: 100vh;
+}
+
+section.sidebar > div {
+    color: white;
+    text-decoration: none;
+    padding: 8px;
+    font-size: 12px;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+p {
+    padding: 0;
+    margin: 0;
+}
+
+ul, li {
+    margin: 0;
+}
+
+section.content > div > img {
+    display: inline-block;
+    text-align: center;
+    top: 100px;
+    position: relative;
 }

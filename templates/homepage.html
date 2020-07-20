@@ -8,8 +8,33 @@
 {% block body %}
 
 <div>
-    <h1>Homepage</h1>
-    <span>You're logged in</span>
+    <section class="sidebar">
+        <div class="welcome">
+            <p>Selamat datang</p>
+            <p><strong>PELAJAR KMPP</strong></p>
+        </div>
+        <div class="time-date">
+            <p>AHAD, 11:40 pm, </p>
+            <p>July 19, 2020</p>
+        </div>
+        <div class="option">
+            <p>Sila pilih peranan anda</p>
+            <ul>
+                <li><a href="{{ url_for('student') }}">student</a></li>
+            </ul>
+        </div>
+        <div class="logout">
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+        <div class="version">
+            <p>VERSI 3.0 13052011</p>
+        </div>
+    </section>
+    <section class="content">
+        <div>
+            <img src="{{ url_for('static', filename='img/kmpp.jpg') }}" alt="kmpp logo">
+        </div>
+    </section>
 </div>
 
 {% endblock %}
