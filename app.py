@@ -1,10 +1,22 @@
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
+from date_time import get_datetime
 
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///login.db'
 db = SQLAlchemy(app)
+
+
+malay = {
+    'Sun': 'AHAD',
+    'Mon': 'ISNIN',
+    'Tue': 'SELASA',
+    'Wed': 'RABU',
+    'Thu': 'KHAMIS',
+    'Fri': 'JUMAAT',
+    'Sat': 'SABTU',
+}
 
 
 class Login(db.Model):
@@ -20,7 +32,8 @@ def login():
         username = request.form['username']
         password = request.form['password']
         if username == 'pelajar' and password == 'pelajarkmpp':
-            return render_template('homepage.html')
+            dt = get_datetime()
+            return render_template('homepage.html', date=dt['date'], time=dt['time'], day=dt['day'])
         else:
             return "Invalid username or password."
 
