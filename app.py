@@ -8,17 +8,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///login.db'
 db = SQLAlchemy(app)
 
 
-malay = {
-    'Sun': 'AHAD',
-    'Mon': 'ISNIN',
-    'Tue': 'SELASA',
-    'Wed': 'RABU',
-    'Thu': 'KHAMIS',
-    'Fri': 'JUMAAT',
-    'Sat': 'SABTU',
-}
-
-
 class Login(db.Model):
     username = db.Column(db.String(200), nullable=False, primary_key=True)
     password = db.Column(db.String(200), nullable=False)
