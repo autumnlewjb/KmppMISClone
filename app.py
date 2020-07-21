@@ -8,9 +8,13 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///login.db'
 db = SQLAlchemy(app)
 
 
-class Login(db.Model):
-    name = db.Column(db.String(200), nullable=False, primary_key=True)
+class Register(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
     matrics_no = db.Column(db.String(200), nullable=False)
+
+    def __repr__(self):
+        return f'<student {self.id}>'
 
 
 @app.route('/', methods=['POST', 'GET'])
@@ -23,6 +27,8 @@ def login():
         if username == 'pelajar' and password == 'pelajarkmpp':
             dt = get_datetime()
             return render_template('homepage.html', date=dt['date'], time=dt['time'], day=dt['day'])
+        elif username == 'admin' and password == 'adminkmpp':
+            return render_template('admin.html')
         else:
             return "Invalid username or password."
 
@@ -46,6 +52,30 @@ def logout():
 @app.route('/outing', methods=['GET'])
 def outing():
     return render_template('outing.html')
+
+
+@app.route('/register', methods=['POST', 'GET'])
+def register():
+    if request.method == 'POST':
+        name = request.form['name']
+        matrics_no = request.form['matrics_no']
+        new_student = Register(name=name, matrics_no=matrics_no)
+
+        db.session.add(new_student)
+        db.session.commit()
+        return redirect('/register')
+    else:
+        return render_template('admin.html')
+
+
+@app.route('/check-no', methods=['POST', 'GET'])
+def check_no():
+    matrics_no = request.form['matrics-no-field']
+    exist = Register.query.get(matrics_no)
+    if not exist:
+        return 'User not found'
+    else:
+        return 'User found'
 
 
 if __name__ == '__main__':

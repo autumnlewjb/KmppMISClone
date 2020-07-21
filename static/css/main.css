@@ -24,7 +24,7 @@ div.login-content {
     width: 500px;
 }
 
-div.login-form {
+div.login-form, div.register-form {
     padding: 20px;
     height: auto;
     text-align: center;
