@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from date_time import get_datetime
 
@@ -9,8 +9,8 @@ db = SQLAlchemy(app)
 
 
 class Login(db.Model):
-    username = db.Column(db.String(200), nullable=False, primary_key=True)
-    password = db.Column(db.String(200), nullable=False)
+    name = db.Column(db.String(200), nullable=False, primary_key=True)
+    matrics_no = db.Column(db.String(200), nullable=False)
 
 
 @app.route('/', methods=['POST', 'GET'])
@@ -25,6 +25,12 @@ def login():
             return render_template('homepage.html', date=dt['date'], time=dt['time'], day=dt['day'])
         else:
             return "Invalid username or password."
+
+
+# TODO: this don't work right
+@app.route('/change', methods=['GET'])
+def change():
+    return render_template('homepage.html')
 
 
 @app.route('/student', methods=['GET'])

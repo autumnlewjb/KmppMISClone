@@ -1,10 +1,38 @@
-{% extends 'base.html' %}
+{% extends 'base2.html' %}
 
-{% block head %}
+{% block content %}
+<div class="header">
+    <p> | 
+        <a href="#">Senarai</a>
+        | 
+        <a href="#">Tambah</a>
+        |
+        <a href="#">Padam</a> 
+    </p>
+    <h3>Outing</h3>
+</div>
+<div class="form-container">
+    <div class="section-title">
+        <h3>LAMAN PERMOHONAN</h3>
+    </div>
+    <div class="apply-form">
+        <div class="choose-category">
+            <form>
+                <label>Pilihan</label>
+                <input type="radio" id="radio" name="radio" value="individu">
+                <label>Individu</label>
+                <input type="radio" id="radio" name="radio" value="kumpulan">
+                <label>Kumpulan</label>
+            </form>
+        </div>
+        <div class="matrics-no">
+            <form>
+                <label>No Matrik</label><input type="text" id="matrics-no-field" name="matrics-no-field" value="">
+                <input type="submit" id="find-no" name="find-no" value="Cari">
+                <input type="reset" id="reset-field" name="reset-field" value="Reset">
+            </form>
+        </div>
+    </div>
+</div>
 
-{% endblock %}
-
-
-{% block body %}
-<h1>You've reached the outing application page. </h1>
 {% endblock %}

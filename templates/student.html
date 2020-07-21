@@ -1,49 +1,7 @@
-{% extends 'base.html' %}
+{% extends 'base2.html' %}
 
-{% block head %}
+{% block content %}
 
-{% endblock %}
-
-
-{% block body %}
-
-<div>
-    <section class="sidebar-student">
-        <div class="change-option">
-            <a href="#">Tukar peranan</a>
-        </div>
-        <div class="view-option">
-            <p><strong>pelajar</strong></p>
-            <p>| student |</p>
-        </div>
-        <div class="semester-detail">
-            <p>Tahun 2020/2021</p>
-            <p>Semester 1</p>
-        </div>
-        <div class="menu">
-            <table>
-                <tbody>
-                    <tr>
-                        <td><a class="button" href="{{ url_for('student') }}">Home</a></td>
-                    </tr>
-                    <tr>
-                        <td><a class="button" href="{{ url_for('outing') }}">Outing</a></td>
-                    </tr>
-                    <tr>
-                        <td><a class="button" href="{{ url_for('logout') }}">Logout</a></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="version" style="text-align: left;">
-            <p>VERSI 3.0 13052011</p>
-        </div>
-    </section>
-    <section class="content">
-        <div>
-            <img src="{{ url_for('static', filename='img/kmpp.jpg') }}" alt="kmpp logo">
-        </div>
-    </section>
-</div>
+<img src="{{ url_for('static', filename='img/kmpp.jpg') }}" alt="kmpp logo">
 
 {% endblock %}

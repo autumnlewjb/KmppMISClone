@@ -91,7 +91,7 @@ section.sidebar-student {
     text-align: center;
 }
 
-a {
+section.sidebar-student a, section.sidebar a {
     text-decoration: none;
     color: white;
 }
@@ -133,4 +133,42 @@ a.button {
 
 a.button:hover {
     background-color: rgba(245, 245, 245, 0.733);
+}
+
+div.header {
+    padding: 0;
+    margin: 0;
+}
+
+div.header > h3 {
+    font-family: serif;
+    text-align: left;
+    padding: 5px 0 5px 100px;
+    width: 50%;
+    margin: 0;
+}
+
+div.header > p {
+    font-size: 12px;
+    text-align: right;
+    padding: 5px 0;
+}
+
+div.section-title > h3 {
+    font-size: 12px;
+    color: white;
+    background-color: rgb(8, 8, 100);
+}
+
+div.form-container {
+    margin: auto;
+    padding: 5px 20px;
+}
+
+div.apply-form label, input {
+    font-size: 12px;
+}
+
+div.matrics-no {
+    padding: 10px;
 }
