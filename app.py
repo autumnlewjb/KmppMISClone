@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from date_time import get_datetime
 from datetime import datetime
+import time
 
 
 app = Flask(__name__)
@@ -102,9 +103,15 @@ def apply_outing(id):
         new_application = Application(name=student.name, matrics_no=student.matrics_no, out_date=out_date, in_date=in_date)
         db.session.add(new_application)
         db.session.commit()
-        return 'Application recorded'
+        return render_template('successful.html', student=student)
     else:
         pass
+
+
+@app.route('/application-successful/<int:id>')
+def successful(id):
+    student = Register.query.get_or_404(id)
+    return render_template('apply.html', student=student)
 
 
 if __name__ == '__main__':

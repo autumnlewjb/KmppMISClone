@@ -191,3 +191,15 @@ div.student-details > table td {
 
  section.content div {
  }
+
+ .ok {
+    display: inline-block;
+    width: 200px;
+    height: 50px;
+    background-color: darkblue;
+    border: rgb(2, 2, 56);
+    color: white;
+    text-decoration: none;
+    font-size: 30px;
+    line-height: 50px;
+ }
