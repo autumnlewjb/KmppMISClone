@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin, login_user, logout_user, login_required, current_user, LoginManager
 from date_time import get_datetime
 from datetime import datetime
 import time
@@ -8,10 +9,15 @@ import time
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///register.db'
 app.config['SQLALCHEMY_BINDS'] = {'application': 'sqlite:///application.db'}
+app.config['SECRET_KEY']='lewjb2010'
 db = SQLAlchemy(app)
 
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'outing'
 
-class Register(db.Model):
+
+class Register(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), nullable=False)
     matrics_no = db.Column(db.String(200), nullable=False)
@@ -28,6 +34,11 @@ class Application(db.Model):
     matrics_no = db.Column(db.String(200), nullable=False)
     out_date = db.Column(db.String(200), nullable=False)
     in_date = db.Column(db.String(200), nullable=False)
+
+
+@login_manager.user_loader
+def load_user(id):
+    return Register.query.get(id)
 
 
 @app.route('/', methods=['POST', 'GET'])
@@ -91,27 +102,31 @@ def check_no():
     if not exist:
         return 'User not found'
     else:
-        return render_template('apply.html', student=exist)
+        login_user(exist)
+        print('logged in')
+        return redirect('/apply-outing')
 
 
-@app.route('/apply-outing/<int:id>', methods=['POST', 'GET'])
-def apply_outing(id):
+@app.route('/apply-outing', methods=['POST', 'GET'])
+@login_required
+def apply_outing():
+    student = current_user
     if request.method == 'POST':
-        student = Register.query.get_or_404(id)
         out_date = '{day}/{month}/{year}'.format(day=request.form['out-day'], month=request.form['out-month'], year=request.form['out-year'])
         in_date = '{day}/{month}/{year}'.format(day=request.form['in-day'], month=request.form['in-month'], year=request.form['in-year'])
         new_application = Application(name=student.name, matrics_no=student.matrics_no, out_date=out_date, in_date=in_date)
         db.session.add(new_application)
         db.session.commit()
-        return render_template('successful.html', student=student)
+        return redirect('/application-successful')
     else:
-        pass
+        return render_template('apply.html', student=current_user)
 
 
-@app.route('/application-successful/<int:id>')
-def successful(id):
-    student = Register.query.get_or_404(id)
-    return render_template('apply.html', student=student)
+@app.route('/application-successful', methods=['GET'])
+@login_required
+def successful():
+    logout_user()
+    return render_template('successful.html', student=current_user)
 
 
 if __name__ == '__main__':
