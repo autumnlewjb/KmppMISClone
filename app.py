@@ -1,11 +1,12 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from date_time import get_datetime
-from flask_login import login_user
+from datetime import datetime
 
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///register.db'
+app.config['SQLALCHEMY_BINDS'] = {'application': 'sqlite:///application.db'}
 db = SQLAlchemy(app)
 
 
@@ -16,6 +17,16 @@ class Register(db.Model):
 
     def __repr__(self):
         return f'<student {self.id}>'
+
+
+class Application(db.Model):
+    __bind_key__ = 'application'
+    id = db.Column(db.Integer, primary_key=True)
+    datetime = db.Column(db.DateTime, default=datetime.now())
+    name = db.Column(db.String(200), nullable=False)
+    matrics_no = db.Column(db.String(200), nullable=False)
+    out_date = db.Column(db.String(200), nullable=False)
+    in_date = db.Column(db.String(200), nullable=False)
 
 
 @app.route('/', methods=['POST', 'GET'])
@@ -80,6 +91,20 @@ def check_no():
         return 'User not found'
     else:
         return render_template('apply.html', student=exist)
+
+
+@app.route('/apply-outing/<int:id>', methods=['POST', 'GET'])
+def apply_outing(id):
+    if request.method == 'POST':
+        student = Register.query.get_or_404(id)
+        out_date = '{day}/{month}/{year}'.format(day=request.form['out-day'], month=request.form['out-month'], year=request.form['out-year'])
+        in_date = '{day}/{month}/{year}'.format(day=request.form['in-day'], month=request.form['in-month'], year=request.form['in-year'])
+        new_application = Application(name=student.name, matrics_no=student.matrics_no, out_date=out_date, in_date=in_date)
+        db.session.add(new_application)
+        db.session.commit()
+        return 'Application recorded'
+    else:
+        pass
 
 
 if __name__ == '__main__':

@@ -23,22 +23,22 @@
         </table>
     </div>
     <div class="outing-form">
-        <form action="/apply_outing">
+        <form action="/apply-outing/{{ student.id }}" method="POST">
             <table>
                 <tr>
                     <td>Tarikh keluar: </td>
                     <td>
-                        <input type="text" value="DD" size="2">/
-                        <input type="text" value="MM" size="2">/
-                        <input type="text" value="YYYY" size="4">
+                        <input type="text" value="DD" id="out-day" name="out-day" size="2">/
+                        <input type="text" value="MM" id="out-month" name="out-month" size="2">/
+                        <input type="text" value="YYYY" id="out-year" name="out-year" size="4">
                     </td>
                 </tr>
                 <tr>
                     <td>Tarikh masuk: </td>
                     <td>
-                        <input type="text" value="DD" size="2">/
-                        <input type="text" value="MM" size="2">/
-                        <input type="text" value="YYYY" size="4">
+                        <input type="text" value="DD" id="in-day" name="in-day" size="2">/
+                        <input type="text" value="MM" id="in-month" name="in-month" size="2">/
+                        <input type="text" value="YYYY" id="in-year" name="in-year" size="4">
                     </td>
                 </tr>
                 <tr>
