@@ -1,0 +1,53 @@
+{% extends 'base2.html' %}
+
+{% block content %}
+<div class="form-container">
+    
+</div>
+<div class="form-container">
+    <div class="section-title">
+        <h3>PERMOHONAN OUTING</h3>
+    </div>
+    <div class="student-details">
+        <table>
+            <th>
+                <tr>
+                    <td><label>NAMA: </label></td>
+                    <td>{{ student.name.upper() }}</td>
+                </tr>
+                <tr>
+                    <td><label>NOMBOR MATRIK: </label></td>
+                    <td>{{ student.matrics_no.upper() }}</td>
+                </tr>
+            </th>
+        </table>
+    </div>
+    <div class="outing-form">
+        <form action="/apply_outing">
+            <table>
+                <tr>
+                    <td>Tarikh keluar: </td>
+                    <td>
+                        <input type="text" value="DD" size="2">/
+                        <input type="text" value="MM" size="2">/
+                        <input type="text" value="YYYY" size="4">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Tarikh masuk: </td>
+                    <td>
+                        <input type="text" value="DD" size="2">/
+                        <input type="text" value="MM" size="2">/
+                        <input type="text" value="YYYY" size="4">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <input type="submit" name="submit" id="submit" value="Hantar" style="margin: 5px;">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -8,6 +8,7 @@ html, body {
     border: 0;
     margin: 0;
     overflow: hidden;
+    font-size: 12px;
 }
 
 /* for login page */
@@ -69,7 +70,7 @@ section.sidebar, section.sidebar-student {
     float: left;
     width: 20vw;
     height: 100vh;
-    text-align: left;;
+    text-align: left;
 }
 
 section.content {
@@ -78,6 +79,10 @@ section.content {
     float: right;
     width: 80vw;
     height: 100vh;
+}
+
+section.content table {
+    display: inline-block;
 }
 
 section.sidebar > div, section.sidebar-student > div {
@@ -172,3 +177,17 @@ div.apply-form label, input {
 div.matrics-no {
     padding: 10px;
 }
+
+div.student-details > table td {
+    width: 200px;
+}
+ div.outing-form > form > table td {
+    width: 200px;
+ }
+
+ div.outing-form, div.student-details {
+    margin: 30px;
+ }
+
+ section.content div {
+ }

@@ -79,7 +79,7 @@ def check_no():
     if not exist:
         return 'User not found'
     else:
-        return 'User found'
+        return render_template('apply.html', student=exist)
 
 
 if __name__ == '__main__':
