@@ -14,18 +14,40 @@
 <div class="register-form">
     <form action="/register" method="POST">
         <table>
-            <tr>
-                <td><label>Name: </label></td>
-                <td><input type="text" class="name" id="name" name="name"></td>
-            </tr>
-            <tr>
-                <td><label>Matrics No: </label></td>
-                <td><input type="text" class="matrics_no" id="matrics_no" name="matrics_no"></td>
-            </tr>
-            <tr>
-                <td colspan="2"><input type="submit" class="submit" id="submit" name="submit" value="submit"></td>
-            </tr>
+            <tb>
+                <tr>
+                    <td><label>Name: </label></td>
+                    <td><input type="text" class="name" id="name" name="name"></td>
+                </tr>
+                <tr>
+                    <td><label>Matrics No: </label></td>
+                    <td><input type="text" class="matrics_no" id="matrics_no" name="matrics_no"></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="submit" class="submit" id="submit" name="submit" value="submit"></td>
+                </tr>
+            </tb>
         </table>
     </form>
+    <div>
+        <table>
+            <th>
+                <tr>
+                    <td>ID</td>
+                    <td>Name</td>
+                    <td>Matriks No</td>
+                </tr>
+            </th>
+            <tb>
+                {% for student in students %}
+                    <tr>
+                        <td>{{ student.id }}</td>
+                        <td>{{ student.name }}</td>
+                        <td>{{ student.matrics_no }}</td>
+                    </tr>
+                {% endfor %}
+            </tb>
+        </table>
+    </div>
 </div>
 {% endblock %}

@@ -1,10 +1,11 @@
 from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from date_time import get_datetime
+from flask_login import login_user
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///login.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///register.db'
 db = SQLAlchemy(app)
 
 
@@ -28,7 +29,8 @@ def login():
             dt = get_datetime()
             return render_template('homepage.html', date=dt['date'], time=dt['time'], day=dt['day'])
         elif username == 'admin' and password == 'adminkmpp':
-            return render_template('admin.html')
+            students = Register.query.order_by(Register.id).all()
+            return render_template('admin.html', students=students)
         else:
             return "Invalid username or password."
 
@@ -63,15 +65,17 @@ def register():
 
         db.session.add(new_student)
         db.session.commit()
-        return redirect('/register')
+        students = Register.query.order_by(Register.id).all()
+        return render_template('admin.html', students=students)
     else:
-        return render_template('admin.html')
+        students = Register.query.order_by(Register.id).all()
+        return render_template('admin.html', students=students)
 
 
 @app.route('/check-no', methods=['POST', 'GET'])
 def check_no():
     matrics_no = request.form['matrics-no-field']
-    exist = Register.query.get(matrics_no)
+    exist = Register.query.filter_by(matrics_no=matrics_no).first()
     if not exist:
         return 'User not found'
     else:
