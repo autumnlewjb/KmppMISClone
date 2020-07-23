@@ -8,44 +8,34 @@
 
 {% block body %}
 <div>
-    <h1>Register Student</h1>
-    <a href="{{ url_for('logout') }}">Logout</a>
+    <section class="sidebar">
+        <div class="welcome">
+            <p>Selamat datang</p>
+            <p><strong>PELAJAR KMPP</strong></p>
+        </div>
+        <div class="time-date">
+            <p>{{day}}, {{time}}, </p>
+            <p>{{date}}</p>
+        </div>
+        <div class="option">
+            <p>Sila pilih peranan anda</p>
+            <ul>
+                <li><a href="{{ url_for('student') }}">student</a></li>
+                <li><a href="{{ url_for('admin_homepage') }}">admin</a></li>
+            </ul>
+        </div>
+        <div class="logout">
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+        <div class="version">
+            <p>VERSI 3.0 13052011</p>
+        </div>
+    </section>
+    <section class="content">
+        <div>
+            <img src="{{ url_for('static', filename='img/kmpp.jpg') }}" alt="kmpp logo">
+        </div>
+    </section>
 </div>
-<div class="register-form">
-    <form action="/register" method="POST">
-        <table>
-            <tb>
-                <tr>
-                    <td><label>Name: </label></td>
-                    <td><input type="text" class="name" id="name" name="name"></td>
-                </tr>
-                <tr>
-                    <td><label>Matrics No: </label></td>
-                    <td><input type="text" class="matrics_no" id="matrics_no" name="matrics_no"></td>
-                </tr>
-                <tr>
-                    <td colspan="2"><input type="submit" class="submit" id="submit" name="submit" value="submit"></td>
-                </tr>
-            </tb>
-        </table>
-    </form>
-    <div>
-        <table>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Matriks No</th>
-            </tr>
-            <tbody>
-                {% for student in students %}
-                    <tr>
-                        <td>{{ student.id }}</td>
-                        <td>{{ student.name }}</td>
-                        <td>{{ student.matrics_no }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-</div>
+
 {% endblock %}

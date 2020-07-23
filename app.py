@@ -52,16 +52,17 @@ def login():
             dt = get_datetime()
             return render_template('homepage.html', date=dt['date'], time=dt['time'], day=dt['day'])
         elif username == 'admin' and password == 'adminkmpp':
-            students = Register.query.order_by(Register.id).all()
-            return render_template('admin.html', students=students)
+            dt = get_datetime()
+            return render_template('admin.html', date=dt['date'], time=dt['time'], day=dt['day'])
         else:
             return "Invalid username or password."
 
 
-# TODO: this don't work right
+# TODO: this don't work right for the admin page
 @app.route('/change', methods=['GET'])
 def change():
-    return render_template('homepage.html')
+    dt = get_datetime()
+    return render_template('homepage.html', date=dt['date'], time=dt['time'], day=dt['day'])
 
 
 @app.route('/student', methods=['GET'])
@@ -89,10 +90,11 @@ def register():
         db.session.add(new_student)
         db.session.commit()
         students = Register.query.order_by(Register.id).all()
-        return render_template('admin.html', students=students)
+        dt = get_datetime()
+        return render_template('admin.html', students=students, date=dt['date'], time=dt['time'], day=dt['day'])
     else:
         students = Register.query.order_by(Register.id).all()
-        return render_template('admin.html', students=students)
+        return render_template('register.html', students=students)
 
 
 @app.route('/check-no', methods=['POST', 'GET'])
@@ -127,6 +129,16 @@ def apply_outing():
 def successful():
     logout_user()
     return render_template('successful.html', student=current_user)
+
+
+@app.route('/admin-homepage', methods=['GET', 'POST'])
+def admin_homepage():
+    return render_template('admin_homepage.html')
+
+
+@app.route('/manage', methods=['GET'])
+def manage():
+    return '<h1>Manage application page</h1>'
 
 
 if __name__ == '__main__':
