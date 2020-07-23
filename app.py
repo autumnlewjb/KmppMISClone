@@ -3,13 +3,12 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, logout_user, login_required, current_user, LoginManager
 from date_time import get_datetime
 from datetime import datetime
-import time
 
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///register.db'
 app.config['SQLALCHEMY_BINDS'] = {'application': 'sqlite:///application.db'}
-app.config['SECRET_KEY']='lewjb2010'
+app.config['SECRET_KEY'] = 'lewjb2010'
 db = SQLAlchemy(app)
 
 login_manager = LoginManager()
@@ -51,24 +50,25 @@ def login():
         password = request.form['password']
         if username == 'pelajar' and password == 'pelajarkmpp':
             dt = get_datetime()
-            return render_template('homepage.html', date=dt['date'], time=dt['time'], day=dt['day'])
+            return render_template('choose_position.html', date=dt['date'], time=dt['time'], day=dt['day'], position='student')
         elif username == 'admin' and password == 'adminkmpp':
             dt = get_datetime()
-            return render_template('admin.html', date=dt['date'], time=dt['time'], day=dt['day'])
+            return render_template('choose_position.html', date=dt['date'], time=dt['time'], day=dt['day'], position='admin')
         else:
             return "Invalid username or password."
 
 
+# User's side
 # TODO: this don't work right for the admin page
 @app.route('/change', methods=['GET'])
 def change():
     dt = get_datetime()
-    return render_template('homepage.html', date=dt['date'], time=dt['time'], day=dt['day'])
+    return render_template('student/homepage.html', date=dt['date'], time=dt['time'], day=dt['day'])
 
 
 @app.route('/student', methods=['GET'])
 def student():
-    return render_template('student.html')
+    return render_template('student/homepage.html')
 
 
 @app.route('/logout', methods=['GET'])
@@ -79,24 +79,7 @@ def logout():
 
 @app.route('/outing', methods=['GET'])
 def outing():
-    return render_template('outing.html')
-
-
-@app.route('/register', methods=['POST', 'GET'])
-def register():
-    if request.method == 'POST':
-        name = request.form['name']
-        matrics_no = request.form['matrics_no']
-        new_student = Register(name=name, matrics_no=matrics_no)
-
-        db.session.add(new_student)
-        db.session.commit()
-        students = Register.query.order_by(Register.id).all()
-        dt = get_datetime()
-        return render_template('admin.html', students=students, date=dt['date'], time=dt['time'], day=dt['day'])
-    else:
-        students = Register.query.order_by(Register.id).all()
-        return render_template('register.html', students=students)
+    return render_template('student/outing_login.html')
 
 
 @app.route('/check-no', methods=['POST', 'GET'])
@@ -123,25 +106,33 @@ def apply_outing():
         db.session.commit()
         return redirect('/application-successful')
     else:
-        return render_template('apply.html', student=current_user)
+        return render_template('student/outing_apply.html', student=current_user)
 
 
 @app.route('/application-successful', methods=['GET', 'POST'])
 @login_required
 def successful():
     logout_user()
-    return render_template('successful.html', student=current_user)
+    return render_template('student/successful.html', student=current_user)
 
 
+@app.route('/history')
+@login_required
+def history():
+    previous = Application.query.filter_by(matrics_no=current_user.matrics_no).order_by(Application.datetime).all()
+    return render_template('student/history.html', applications=previous)
+
+
+# Admin's side
 @app.route('/admin-homepage', methods=['GET', 'POST'])
 def admin_homepage():
-    return render_template('admin_homepage.html')
+    return render_template('admin/homepage.html')
 
 
 @app.route('/manage', methods=['GET'])
 def manage():
     applications = Application.query.order_by(Application.datetime).all()
-    return render_template('manage.html', applications=applications)
+    return render_template('admin/manage.html', applications=applications)
 
 
 @app.route('/approve/<int:id>', methods=['GET'])
@@ -164,11 +155,20 @@ def cancel(id):
     return redirect('/manage')
 
 
-@app.route('/history')
-@login_required
-def history():
-    previous = Application.query.filter_by(matrics_no=current_user.matrics_no).order_by(Application.datetime).all()
-    return render_template('student_history.html', applications=previous)
+@app.route('/register', methods=['POST', 'GET'])
+def register():
+    if request.method == 'POST':
+        name = request.form['name']
+        matrics_no = request.form['matrics_no']
+        new_student = Register(name=name, matrics_no=matrics_no)
+
+        db.session.add(new_student)
+        db.session.commit()
+        students = Register.query.order_by(Register.id).all()
+        return redirect('/register')
+    else:
+        students = Register.query.order_by(Register.id).all()
+        return render_template('admin/register.html', students=students)
 
 
 if __name__ == '__main__':

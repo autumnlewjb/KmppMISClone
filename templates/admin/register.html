@@ -1,9 +1,8 @@
-{% extends 'base_admin.html' %}
+{% extends 'admin/base_admin.html' %}
 
 {% block content %}
 <div>
     <h1>Register Student</h1>
-    <a href="{{ url_for('logout') }}">Logout</a>
 </div>
 <div class="register-form">
     <form action="/register" method="POST">
