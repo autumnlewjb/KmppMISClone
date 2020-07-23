@@ -73,8 +73,8 @@ def student():
 
 @app.route('/logout', methods=['GET'])
 def logout():
-    return render_template('login.html')
     logout_user()
+    return render_template('login.html')
 
 
 @app.route('/outing', methods=['GET'])
