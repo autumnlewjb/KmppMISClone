@@ -122,7 +122,7 @@ def apply_outing():
         return render_template('apply.html', student=current_user)
 
 
-@app.route('/application-successful', methods=['GET'])
+@app.route('/application-successful', methods=['GET', 'POST'])
 @login_required
 def successful():
     logout_user()
