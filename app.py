@@ -13,7 +13,7 @@ db = SQLAlchemy(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
-login_manager.login_view = 'outing'
+login_manager.login_view = 'outing_login'
 
 
 class Register(UserMixin, db.Model):
@@ -77,26 +77,24 @@ def logout():
     return render_template('login.html')
 
 
-@app.route('/outing', methods=['GET'])
-def outing():
-    return render_template('student/outing_login.html')
-
-
-@app.route('/check-no', methods=['POST', 'GET'])
-def check_no():
-    matrics_no = request.form['matrics-no-field']
-    exist = Register.query.filter_by(matrics_no=matrics_no).first()
-    if not exist:
-        return 'User not found'
+@app.route('/outing-login', methods=['POST', 'GET'])
+def outing_login():
+    if request.method == 'POST': 
+        matrics_no = request.form['matrics-no-field']
+        exist = Register.query.filter_by(matrics_no=matrics_no).first()
+        if not exist:
+            return 'User not found'
+        else:
+            login_user(exist)
+            print('logged in')
+            return redirect('/outing-apply')
     else:
-        login_user(exist)
-        print('logged in')
-        return redirect('/apply-outing')
+        return render_template('student/outing_login.html')
 
 
-@app.route('/apply-outing', methods=['POST', 'GET'])
+@app.route('/outing-apply', methods=['POST', 'GET'])
 @login_required
-def apply_outing():
+def outing_apply():
     student = current_user
     if request.method == 'POST':
         out_date = '{day}/{month}/{year}'.format(day=request.form['out-day'], month=request.form['out-month'], year=request.form['out-year'])
@@ -124,7 +122,7 @@ def history():
 
 
 # Admin's side
-@app.route('/admin-homepage', methods=['GET', 'POST'])
+@app.route('/admin-homepage', methods=['GET'])
 def admin_homepage():
     return render_template('admin/homepage.html')
 
