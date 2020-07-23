@@ -28,12 +28,14 @@
                 <th>ID</th>
                 <th>Name</th>
                 <th>Matriks No</th>
+                <th>Admin Access</th>
             </tr>
             {% for student in students %}
                 <tr>
                     <td>{{ student.id }}</td>
                     <td>{{ student.name }}</td>
                     <td>{{ student.matrics_no }}</td>
+                    <td>{{ student.is_admin }}</td>
                 </tr>
             {% endfor %}
         </table>
