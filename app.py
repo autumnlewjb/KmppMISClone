@@ -34,6 +34,7 @@ class Application(db.Model):
     matrics_no = db.Column(db.String(200), nullable=False)
     out_date = db.Column(db.String(200), nullable=False)
     in_date = db.Column(db.String(200), nullable=False)
+    status = db.Column(db.String(100), nullable=False, default='Processing')
 
 
 @login_manager.user_loader
@@ -73,6 +74,7 @@ def student():
 @app.route('/logout', methods=['GET'])
 def logout():
     return render_template('login.html')
+    logout_user()
 
 
 @app.route('/outing', methods=['GET'])
@@ -138,7 +140,35 @@ def admin_homepage():
 
 @app.route('/manage', methods=['GET'])
 def manage():
-    return '<h1>Manage application page</h1>'
+    applications = Application.query.order_by(Application.datetime).all()
+    return render_template('manage.html', applications=applications)
+
+
+@app.route('/approve/<int:id>', methods=['GET'])
+def approve(id):
+    to_be_approved = Application.query.get_or_404(id)
+    to_be_approved.status = 'Approved'
+
+    db.session.commit()
+
+    return redirect('/manage')
+
+
+@app.route('/cancel/<int:id>', methods=['GET'])
+def cancel(id):
+    to_be_cancelled = Application.query.get_or_404(id)
+    to_be_cancelled.status = 'Rejected'
+
+    db.session.commit()
+
+    return redirect('/manage')
+
+
+@app.route('/history')
+@login_required
+def history():
+    previous = Application.query.filter_by(matrics_no=current_user.matrics_no).order_by(Application.datetime).all()
+    return render_template('student_history.html', applications=previous)
 
 
 if __name__ == '__main__':
