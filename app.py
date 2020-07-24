@@ -103,16 +103,18 @@ def get_number():
 @app.route('/outing-login', methods=['POST', 'GET'])
 def outing_login():
     if request.method == 'POST':
-        matrics_no = request.form['matrics-no-field']
-        if not matrics_no:
-            return redirect('/group')
-        exist = Register.query.filter_by(matrics_no=matrics_no).first()
-        if not exist:
-            return 'User not found'
+        if request.form['matrics-no-field']:
+            matrics_no = request.form['matrics-no-field']
+            exist = Register.query.filter_by(matrics_no=matrics_no).first()
+            if not exist:
+                return 'User not found'
+            else:
+                login_user(exist)
+                print('logged in')
+                return redirect('/outing-apply')
         else:
-            login_user(exist)
-            print('logged in')
-            return redirect('/outing-apply')
+            no = request.form['people-no-field']
+            return redirect(f'/group/{no}')
     else:
         logout_user()
         return render_template('student/outing_login.html', num=0)
@@ -168,9 +170,17 @@ def history():
     return render_template('student/history.html', applications=previous)
 
 
-@app.route('/group')
-def group():
-    return render_template('student/group.html')
+@app.route('/group/<int:num>')
+def group(num):
+    if request.method == 'POST':
+        for i in range(num):
+            matrics_no = request.form['matrics-no-{}'.format(i)]
+            exist = Register.query.filter_by(matrics_no=matrics_no)
+            if exist:
+                pass
+            # TODO: continue here
+    else:
+        return render_template('student/group.html', number=num)
 
 
 # Admin's side
