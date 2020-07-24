@@ -114,6 +114,7 @@ def outing_login():
             print('logged in')
             return redirect('/outing-apply')
     else:
+        logout_user()
         return render_template('student/outing_login.html', num=0)
 
 

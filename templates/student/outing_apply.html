@@ -1,107 +1,98 @@
-{% extends 'student/base_student.html' %}
+{% extends 'student/base_outing.html' %}
 
-{% block content %}
-<div class="header">
-    <p> | 
-        <a href="/history">Senarai</a>
-        | 
-        <a href="/apply-outing">Tambah</a>
-        |
-        <a href="/logout">Padam</a> 
-    </p>
-    <h3>Outing</h3>
+{% block title %}
+PERMOHONAN OUTING
+{% endblock %}
+
+{% block outing_content %}
+
+<div class="student-details">
+    <table>
+        <tbody>
+            <tr>
+                <td><label>Nama: </label></td>
+                <td>{{ student.name }}</td>
+            </tr>
+            <tr>
+                <td><label>No. Kad Pengenalan: </label></td>
+                <td>{{ student.ic_no }}</td>
+                <td><label>No. Matrik: </label></td>
+                <td>{{ student.matrics_no }}</td>
+            </tr>
+            <tr>
+                <td><label>No. Bilik: </label></td>
+                <td>{{ student.room_no }}</td>
+                <td><label>Kursus: </label></td>
+                <td>{{ student.course }}</td>
+            </tr>
+            <tr>
+                <td><label>No. Telefon: </label></td>
+                <td>{{ student.tel_no }}</td>
+                <td><label>No Telefon Bimbit: </label></td>
+                <td>{{ student.hp_no }}</td>
+            </tr>
+        </tbody>
+    </table>
 </div>
-<div class="form-container">
-    <div class="section-title">
-        <h3>PERMOHONAN OUTING</h3>
-    </div>
-    <div class="student-details">
+<div class="outing-form">
+    <form action="/outing-apply" method="POST">
         <table>
-            <tbody>
-                <tr>
-                    <td><label>Nama: </label></td>
-                    <td>{{ student.name }}</td>
-                </tr>
-                <tr>
-                    <td><label>No. Kad Pengenalan: </label></td>
-                    <td>{{ student.ic_no }}</td>
-                    <td><label>No. Matrik: </label></td>
-                    <td>{{ student.matrics_no }}</td>
-                </tr>
-                <tr>
-                    <td><label>No. Bilik: </label></td>
-                    <td>{{ student.room_no }}</td>
-                    <td><label>Kursus: </label></td>
-                    <td>{{ student.course }}</td>
-                </tr>
-                <tr>
-                    <td><label>No. Telefon: </label></td>
-                    <td>{{ student.tel_no }}</td>
-                    <td><label>No Telefon Bimbit: </label></td>
-                    <td>{{ student.hp_no }}</td>
-                </tr>
-            </tbody>
+            <tr>
+                <td>Jenis Permohonan </td>
+                <td>
+                    <select name="apply-type" id="apply-type">
+                        <option value="Outing Khas">Outing Khas</option>
+                        <option value="Bermalam Biasa">Bermalam Biasa</option>
+                        <option value="Bermalam Khas">Bermalam Khas</option>
+                    </select>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Tarikh Keluar: </td>
+                <td>
+                    <input type="date" id="out-date" name="out-date">
+                </td>
+                <td>Waktu Keluar: </td>
+                <td>
+                    <input type="time" id="out-time" name="out-time">
+                </td>
+            </tr>
+            <tr>
+                <td>Tarikh Balik: </td>
+                <td>
+                    <input type="date" id="in-date" name="in-date">
+                </td>
+                <td>Waktu Balik ke Kolej: </td>
+                <td>
+                    <input type="time" id="in-time" name="in-time">
+                </td>
+            </tr>
+            <tr>
+                <td>Kenderaan: </td>
+                <td>
+                    <input type="text" id="transport" name="transport">
+                </td>
+            </tr>
+            <tr>
+                <td>Tujuan: </td>
+                <td>
+                    <input type="text" id="aim" name="aim">
+                </td>
+            </tr>
+            <tr>
+                <td>Tempat: </td>
+                <td>
+                    <input type="text" id="place" name="place">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" style="text-align: center;">
+                    <input type="submit" name="submit" id="submit" value="Hantar" style="margin: 5px;">
+                </td>
+            </tr>
         </table>
-    </div>
-    <div class="outing-form">
-        <form action="/outing-apply" method="POST">
-            <table>
-                <tr>
-                    <td>Jenis Permohonan </td>
-                    <td>
-                        <select name="apply-type" id="apply-type">
-                            <option value="Outing Khas">Outing Khas</option>
-                            <option value="Bermalam Biasa">Bermalam Biasa</option>
-                            <option value="Bermalam Khas">Bermalam Khas</option>
-                        </select>
-                    </td>
-                </tr>
-                
-                <tr>
-                    <td>Tarikh Keluar: </td>
-                    <td>
-                        <input type="date" id="out-date" name="out-date">
-                    </td>
-                    <td>Waktu Keluar: </td>
-                    <td>
-                        <input type="time" id="out-time" name="out-time">
-                    </td>
-                </tr>
-                <tr>
-                    <td>Tarikh Balik: </td>
-                    <td>
-                        <input type="date" id="in-date" name="in-date">
-                    </td>
-                    <td>Waktu Balik ke Kolej: </td>
-                    <td>
-                        <input type="time" id="in-time" name="in-time">
-                    </td>
-                </tr>
-                <tr>
-                    <td>Kenderaan: </td>
-                    <td>
-                        <input type="text" id="transport" name="transport">
-                    </td>
-                </tr>
-                <tr>
-                    <td>Tujuan: </td>
-                    <td>
-                        <input type="text" id="aim" name="aim">
-                    </td>
-                </tr>
-                <tr>
-                    <td>Tempat: </td>
-                    <td>
-                        <input type="text" id="place" name="place">
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="4" style="text-align: center;">
-                        <input type="submit" name="submit" id="submit" value="Hantar" style="margin: 5px;">
-                    </td>
-                </tr>
-            </table>
-        </form>
-    </div>
+    </form>
 </div>
+
 {% endblock %}
