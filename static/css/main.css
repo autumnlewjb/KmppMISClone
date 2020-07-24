@@ -245,15 +245,15 @@ div.student-details > table td {
  }
 
  .approved {
-    background-color: green;
+    background-color: rgba(76, 243, 76, 0.719);
  }
 
  .rejected {
-    background-color: red;
+    background-color: rgba(240, 62, 62, 0.993);
  }
 
  .processing {
-    background-color: yellow;
+    background-color: rgba(241, 241, 74, 0.87);
  }
 
 a.quick-button {

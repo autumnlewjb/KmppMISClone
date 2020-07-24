@@ -20,8 +20,8 @@
                 <tr>
                     <td>{{ application.name }}</td>
                     <td>{{ application.matrics_no }}</td>
-                    <td>{{ application.out_date }}</td>
-                    <td>{{ application.in_date }}</td>
+                    <td>{{ application.out_date.date() }}</td>
+                    <td>{{ application.in_date.date() }}</td>
                     <td class="{{application.status.lower()}}">{{ application.status }}</td>
                     <td>
                         <ul>
@@ -36,6 +36,8 @@
     <div>
         <a class="quick-button" href="{{ url_for('approve_all') }}">Approve all</a>
         <a class="quick-button" href="{{ url_for('cancel_all') }}">Cancel all</a>
+        <a class="quick-button" href="{{ url_for('reset_approval') }}">Reset Approval</a>
+        <a class="quick-button" href="{{ url_for('garbage_collector') }}" style='background-color: red;'>Remove Expired</a>
     </div>
 </div>
 {% endblock %}

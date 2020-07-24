@@ -32,8 +32,8 @@ class Application(db.Model):
     datetime = db.Column(db.DateTime, default=datetime.now())
     name = db.Column(db.String(200), nullable=False)
     matrics_no = db.Column(db.String(200), nullable=False)
-    out_date = db.Column(db.String(200), nullable=False)
-    in_date = db.Column(db.String(200), nullable=False)
+    out_date = db.Column(db.DateTime)
+    in_date = db.Column(db.DateTime)
     status = db.Column(db.String(100), nullable=False, default='Processing')
 
 
@@ -100,12 +100,15 @@ def outing_login():
 def outing_apply():
     student = current_user
     if request.method == 'POST':
-        out_date = '{day}/{month}/{year}'.format(day=request.form['out-day'], month=request.form['out-month'], year=request.form['out-year'])
-        in_date = '{day}/{month}/{year}'.format(day=request.form['in-day'], month=request.form['in-month'], year=request.form['in-year'])
-        new_application = Application(name=student.name, matrics_no=student.matrics_no, out_date=out_date, in_date=in_date)
-        db.session.add(new_application)
-        db.session.commit()
-        return redirect('/application-successful')
+        try:
+            out_date = datetime(year=int(request.form['out-year']), month=int(request.form['out-month']), day=int(request.form['out-day']))
+            in_date = datetime(year=int(request.form['in-year']), month=int(request.form['in-month']), day=int(request.form['in-day']))
+            new_application = Application(name=student.name, matrics_no=student.matrics_no, out_date=out_date, in_date=in_date)
+            db.session.add(new_application)
+            db.session.commit()
+            return redirect('/application-successful')
+        except ValueError:
+            return '<h1>Application not recorded</h1>'
     else:
         return render_template('student/outing_apply.html', student=current_user)
 
@@ -204,6 +207,30 @@ def register():
     else:
         students = Register.query.order_by(Register.id).all()
         return render_template('admin/register.html', students=students)
+
+
+@app.route('/remove-expired', methods=['GET'])
+@login_required
+def garbage_collector():
+    garbage_bag = [material for material in Application.query.all() if material.out_date.date() < datetime.now().date()]
+    for garbage in garbage_bag:
+        db.session.delete(garbage)
+    
+    db.session.commit()
+
+    return redirect('/manage')
+
+
+@app.route('/reset-approval', methods=['GET'])
+@login_required
+def reset_approval():
+    application = [material for material in Application.query.all() if material.out_date.date() >= datetime.now().date()]
+    for apply in application:
+        apply.status = 'Processing'
+    
+    db.session.commit()
+
+    return redirect('/manage')
 
 
 if __name__ == '__main__':
