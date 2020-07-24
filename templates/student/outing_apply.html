@@ -17,7 +17,7 @@
     </div>
     <div class="student-details">
         <table>
-            <th>
+            <tbody>
                 <tr>
                     <td><label>Nama: </label></td>
                     <td>{{ student.name }}</td>
@@ -25,28 +25,22 @@
                 <tr>
                     <td><label>No. Kad Pengenalan: </label></td>
                     <td>{{ student.ic_no }}</td>
-                </tr>
-                <tr>
-                    <td><label>No. Bilik: </label></td>
-                    <td>{{ student.room_no }}</td>
-                </tr>
-                <tr>
-                    <td><label>No. Telefon: </label></td>
-                    <td>{{ student.tel_no }}</td>
-                </tr>
-                <tr>
                     <td><label>No. Matrik: </label></td>
                     <td>{{ student.matrics_no }}</td>
                 </tr>
                 <tr>
+                    <td><label>No. Bilik: </label></td>
+                    <td>{{ student.room_no }}</td>
                     <td><label>Kursus: </label></td>
                     <td>{{ student.course }}</td>
                 </tr>
                 <tr>
+                    <td><label>No. Telefon: </label></td>
+                    <td>{{ student.tel_no }}</td>
                     <td><label>No Telefon Bimbit: </label></td>
                     <td>{{ student.hp_no }}</td>
                 </tr>
-            </th>
+            </tbody>
         </table>
     </div>
     <div class="outing-form">
@@ -62,26 +56,23 @@
                         </select>
                     </td>
                 </tr>
+                
                 <tr>
-                    <td>Tarikh keluar: </td>
+                    <td>Tarikh Keluar: </td>
                     <td>
                         <input type="date" id="out-date" name="out-date">
                     </td>
-                </tr>
-                <tr>
-                    <td>Waktu keluar: </td>
+                    <td>Waktu Keluar: </td>
                     <td>
                         <input type="time" id="out-time" name="out-time">
                     </td>
                 </tr>
                 <tr>
-                    <td>Tarikh masuk: </td>
+                    <td>Tarikh Balik: </td>
                     <td>
                         <input type="date" id="in-date" name="in-date">
                     </td>
-                </tr>
-                <tr>
-                    <td>Waktu masuk: </td>
+                    <td>Waktu Balik ke Kolej: </td>
                     <td>
                         <input type="time" id="in-time" name="in-time">
                     </td>
@@ -105,7 +96,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2" style="text-align: center;">
+                    <td colspan="4" style="text-align: center;">
                         <input type="submit" name="submit" id="submit" value="Hantar" style="margin: 5px;">
                     </td>
                 </tr>
