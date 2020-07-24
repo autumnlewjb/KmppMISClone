@@ -64,10 +64,10 @@ def login():
 
 # User's side
 # TODO: this don't work right for the admin page
-@app.route('/change', methods=['GET'])
-def change():
+@app.route('/change/<position>', methods=['GET'])
+def change(position):
     dt = get_datetime()
-    return render_template('student/homepage.html', date=dt['date'], time=dt['time'], day=dt['day'])
+    return render_template('choose_position.html', date=dt['date'], time=dt['time'], day=dt['day'], position=position)
 
 
 @app.route('/student', methods=['GET'])
@@ -126,6 +126,11 @@ def history():
 
 
 # Admin's side
+# def change():
+#     dt = get_datetime()
+#     return render_template('choose_position.html', date=dt['date'], time=dt['time'], day=dt['day'], position='admin')
+
+
 @app.route('/admin-homepage', methods=['GET'])
 @login_required
 def admin_homepage():
