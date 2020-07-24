@@ -63,11 +63,10 @@ def login():
 
 
 # User's side
-# TODO: this don't work right for the admin page
+# TODO: temporarily make it log out, find other solution
 @app.route('/change/<position>', methods=['GET'])
 def change(position):
-    dt = get_datetime()
-    return render_template('choose_position.html', date=dt['date'], time=dt['time'], day=dt['day'], position=position)
+    return redirect('/logout')
 
 
 @app.route('/student', methods=['GET'])
