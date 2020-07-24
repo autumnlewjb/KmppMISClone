@@ -3,23 +3,28 @@
 
 {% block content %}
 
-<div>
-    <table>
-        <tr>
-            <th>Application Date</th>
-            <th>Departure Date</th>
-            <th>Return Date</th>
-            <th>Status</th>
-        </tr>
-        {% for application in applications %}
+<div class="form-container">
+    <div class="section-title">
+        <h3>Application History</h3>
+    </div>
+    <div class="application-table">
+        <table>
             <tr>
-                <td>{{ application.datetime.date() }}</td>
-                <td>{{ application.out_date }}</td>
-                <td>{{ application.in_date }}</td>
-                <td class="{{application.status.lower()}}">{{ application.status }}</td>
+                <th>Application Date</th>
+                <th>Departure Date</th>
+                <th>Return Date</th>
+                <th>Status</th>
             </tr>
-        {% endfor %}
-    </table>
+            {% for application in applications %}
+                <tr>
+                    <td>{{ application.datetime.date() }}</td>
+                    <td>{{ application.out_date }}</td>
+                    <td>{{ application.in_date }}</td>
+                    <td class="{{application.status.lower()}}">{{ application.status }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
 </div>
 
 {% endblock %}

@@ -189,8 +189,6 @@ div.student-details > table td {
     margin: 30px;
  }
 
- section.content div {
- }
 
  .ok {
     display: inline-block;
@@ -202,6 +200,15 @@ div.student-details > table td {
     text-decoration: none;
     font-size: 30px;
     line-height: 50px;
+ }
+
+ div.common-table {
+    float: left;
+    text-align: center;
+ }
+ 
+ div.registered-student {
+    float: right;
  }
  
  div.registered-student > table {
@@ -217,15 +224,22 @@ div.student-details > table td {
     border-collapse: collapse;
  }
 
- section.content > div > div > table {
+ div.application-table {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 80vh;
+    width: 100%;
+ }
+
+ div.application-table > table {
     border: 1px solid black;
     border-collapse: collapse;
     margin: 30px;
     text-align: center;
  }
 
- section.content > div > div > table > tbody > tr > th,  section.content > div > div > table > tbody > tr > td {
-    width: 100px;
+ div.application-table > table > tbody > tr > th,  div.application-table > table > tbody > tr > td {
+    width: 300px;
     border: 1px solid black;
     border-collapse: collapse;
  }
@@ -241,3 +255,11 @@ div.student-details > table td {
  .processing {
     background-color: yellow;
  }
+
+a.quick-button {
+    border: 1px solid black;
+    padding: 5px;
+    line-height: 1px;
+    text-decoration: none;
+    color: black;
+}

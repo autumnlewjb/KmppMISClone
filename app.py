@@ -154,11 +154,35 @@ def approve(id):
     return redirect('/manage')
 
 
+@app.route('/approve-all', methods=['GET'])
+@login_required
+def approve_all():
+    to_be_approved_list = Application.query.all()
+    for to_be_approved in to_be_approved_list:
+        to_be_approved.status = 'Approved'
+
+    db.session.commit()
+
+    return redirect('/manage')
+
+
 @app.route('/cancel/<int:id>', methods=['GET'])
 @login_required
 def cancel(id):
     to_be_cancelled = Application.query.get_or_404(id)
     to_be_cancelled.status = 'Rejected'
+
+    db.session.commit()
+
+    return redirect('/manage')
+
+
+@app.route('/cancel-all', methods=['GET'])
+@login_required
+def cancel_all():
+    to_be_approved_list = Application.query.all()
+    for to_be_approved in to_be_approved_list:
+        to_be_approved.status = 'Rejected'
 
     db.session.commit()
 
