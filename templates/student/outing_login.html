@@ -16,22 +16,40 @@
         <h3>LAMAN PERMOHONAN</h3>
     </div>
     <div class="apply-form">
-        <div class="choose-category">
-            <form>
-                <label>Pilihan</label>
-                <input type="radio" id="radio" name="radio" value="individu">
-                <label>Individu</label>
-                <input type="radio" id="radio" name="radio" value="kumpulan">
-                <label>Kumpulan</label>
-            </form>
-        </div>
-        <div class="matrics-no">
-            <form action="/outing-login" method="POST">
-                <label>No Matrik</label><input type="text" id="matrics-no-field" name="matrics-no-field" value="">
+        {% if num == 0 %}
+            <div class="choose-category">
+                <form action="/get-number" method="POST">
+                    <ul></ul>
+                    <label>Pilihan</label>
+                    <input type="radio" id="individu" name="type" value="individu" checked>
+                    <label>Individu</label>
+                    <input type="radio" id="kumpulan" name="type" value="kumpulan">
+                    <label>Kumpulan</label>
+                    <div class="matrics-no reveal-if-active">
+                        <label>Bilangan orang: </label><input type="text" id="matrics-no-field" name="matrics-no-field" value="0">
+                        <input type="submit" id="find-no" name="find-no" value="Permohonan>>>">
+                    </div>
+                    <div class="matrics-no reveal-if-active-2">
+                        <form action="/outing-login/0" method="POST">
+                            <label>No Matrik</label><input type="text" id="matrics-no-field" name="matrics-no-field" value="">
+                            <input type="submit" id="find-no" name="find-no" value="Cari">
+                            <input type="reset" id="reset-field" name="reset-field" value="Reset">
+                        </form>
+                    </div>
+                </form>
+            </div>
+        {% endif %}
+        
+        <!-- <div class="matrics-no">
+            <form action="/outing-login/{{num}}" method="POST">
+                {% for i in range(num) %}
+                    <label>No Matrik</label><input type="text" id="matrics-no-field" name="matrics-no-field-{{i}}" value="">
+                    <br>
+                {% endfor %}
                 <input type="submit" id="find-no" name="find-no" value="Cari">
                 <input type="reset" id="reset-field" name="reset-field" value="Reset">
             </form>
-        </div>
+        </div> -->
     </div>
 </div>
 

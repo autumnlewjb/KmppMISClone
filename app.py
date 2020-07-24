@@ -80,9 +80,18 @@ def logout():
     return render_template('login.html')
 
 
+@app.route('/get-number', methods=['GET', 'POST'])
+def get_number():
+    try:
+        num = int(request.form['matrics-no-field'])
+        return render_template('student/outing_login.html', num=num)
+    except ValueError:
+        return redirect('/outing-login')
+
+
 @app.route('/outing-login', methods=['POST', 'GET'])
 def outing_login():
-    if request.method == 'POST': 
+    if request.method == 'POST':
         matrics_no = request.form['matrics-no-field']
         exist = Register.query.filter_by(matrics_no=matrics_no).first()
         if not exist:
@@ -92,7 +101,7 @@ def outing_login():
             print('logged in')
             return redirect('/outing-apply')
     else:
-        return render_template('student/outing_login.html')
+        return render_template('student/outing_login.html', num=0)
 
 
 @app.route('/outing-apply', methods=['POST', 'GET'])
@@ -215,7 +224,7 @@ def garbage_collector():
     garbage_bag = [material for material in Application.query.all() if material.out_date.date() < datetime.now().date()]
     for garbage in garbage_bag:
         db.session.delete(garbage)
-    
+
     db.session.commit()
 
     return redirect('/manage')

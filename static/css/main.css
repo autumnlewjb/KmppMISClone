@@ -174,10 +174,6 @@ div.apply-form label, input {
     font-size: 12px;
 }
 
-div.matrics-no {
-    padding: 10px;
-}
-
 div.student-details > table td {
     width: 200px;
 }
@@ -188,7 +184,6 @@ div.student-details > table td {
  div.outing-form, div.student-details {
     margin: 30px;
  }
-
 
  .ok {
     display: inline-block;
@@ -262,4 +257,28 @@ a.quick-button {
     line-height: 1px;
     text-decoration: none;
     color: black;
+}
+
+.reveal-if-active {
+    opacity: 0;
+    overflow: hidden;
+    max-height: 0;
+}
+
+input[type='radio']#kumpulan:checked ~ .reveal-if-active {
+    opacity: 1;
+    max-height: 100%;
+    overflow: visible;
+}
+
+.reveal-if-active-2 {
+    opacity: 0;
+    overflow: hidden;
+    max-height: 0;
+}
+
+input[type='radio']#individu:checked ~ .reveal-if-active-2 {
+    opacity: 1;
+    max-height: 100%;
+    overflow: visible
 }
