@@ -204,6 +204,7 @@ div.student-details > table td {
  
  div.registered-student {
     float: right;
+    overflow: scroll;
  }
  
  div.registered-student > table {
@@ -220,8 +221,7 @@ div.student-details > table td {
  }
 
  div.application-table {
-    overflow-y: scroll;
-    overflow-x: hidden;
+    overflow: scroll;
     height: 80vh;
     width: 100%;
  }

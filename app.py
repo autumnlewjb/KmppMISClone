@@ -20,6 +20,11 @@ class Register(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), nullable=False)
     matrics_no = db.Column(db.String(200), nullable=False)
+    ic_no = db.Column(db.String(200), nullable=True)
+    room_no = db.Column(db.String(200), nullable=True)
+    tel_no = db.Column(db.String(200), nullable=True)
+    hp_no = db.Column(db.String(200), nullable=True)
+    course = db.Column(db.String(200), nullable=True)
     is_admin = db.Column(db.Boolean, default=False)
 
     def __repr__(self):
@@ -30,10 +35,14 @@ class Application(db.Model):
     __bind_key__ = 'application'
     id = db.Column(db.Integer, primary_key=True)
     datetime = db.Column(db.DateTime, default=datetime.now())
+    apply_type = db.Column(db.String(200), nullable=False)
     name = db.Column(db.String(200), nullable=False)
     matrics_no = db.Column(db.String(200), nullable=False)
-    out_date = db.Column(db.DateTime)
-    in_date = db.Column(db.DateTime)
+    out_datetime = db.Column(db.DateTime)
+    in_datetime = db.Column(db.DateTime)
+    transport = db.Column(db.String(200), nullable=False)
+    aim = db.Column(db.String(200), nullable=False)
+    place = db.Column(db.String(200), nullable=False)
     status = db.Column(db.String(100), nullable=False, default='Processing')
 
 
@@ -54,10 +63,12 @@ def login():
             return render_template('choose_position.html', date=dt['date'], time=dt['time'], day=dt['day'], position='student')
         elif username == 'admin' and password == 'adminkmpp':
             dt = get_datetime()
-            admin = Register.query.filter_by(matrics_no=password).first()
+            admin = Register.query.filter_by(name='admin').first()
             if admin.is_admin:
                 login_user(admin)
                 return render_template('choose_position.html', date=dt['date'], time=dt['time'], day=dt['day'], position='admin')
+            else:
+                return "login failed"
         else:
             return "Invalid username or password."
 
@@ -112,9 +123,27 @@ def outing_apply():
     student = current_user
     if request.method == 'POST':
         try:
-            out_date = datetime(year=int(request.form['out-year']), month=int(request.form['out-month']), day=int(request.form['out-day']))
-            in_date = datetime(year=int(request.form['in-year']), month=int(request.form['in-month']), day=int(request.form['in-day']))
-            new_application = Application(name=student.name, matrics_no=student.matrics_no, out_date=out_date, in_date=in_date)
+            print(request.form['in-date'])
+            in_date = list(map(int, request.form['in-date'].split('-')))
+            out_date = list(map(int, request.form['out-date'].split('-')))
+            in_time = list(map(int, request.form['in-time'].split(':')))
+            out_time = list(map(int, request.form['out-time'].split(':')))
+            out_datetime = datetime(year=out_date[0], month=out_date[1], day=out_date[2], hour=out_time[0], minute=out_time[1])
+            in_datetime = datetime(year=in_date[0], month=in_date[1], day=in_date[2], hour=in_time[0], minute=in_time[1])
+            transport = request.form['transport']
+            aim = request.form['aim']
+            place = request.form['place']
+            apply_type = request.form['apply-type']
+            new_application = Application(
+                name=student.name,
+                matrics_no=student.matrics_no,
+                out_datetime=out_datetime,
+                in_datetime=in_datetime,
+                transport=transport,
+                aim=aim,
+                place=place,
+                apply_type=apply_type
+            )
             db.session.add(new_application)
             db.session.commit()
             return redirect('/application-successful')
@@ -209,7 +238,20 @@ def register():
     if request.method == 'POST':
         name = request.form['name']
         matrics_no = request.form['matrics_no']
-        new_student = Register(name=name, matrics_no=matrics_no)
+        ic_no = request.form['ic_no']
+        room_no = request.form['room_no']
+        tel_no = request.form['tel_no']
+        hp_no = request.form['hp_no']
+        course = request.form['course']
+        new_student = Register(
+            name=name,
+            matrics_no=matrics_no,
+            ic_no=ic_no,
+            room_no=room_no,
+            tel_no=tel_no,
+            hp_no=hp_no,
+            course=course
+        )
 
         db.session.add(new_student)
         db.session.commit()
@@ -220,10 +262,18 @@ def register():
         return render_template('admin/register.html', students=students)
 
 
+@app.route('/delete-user/<int:id>', methods=['GET'])
+def delete_user(id):
+    to_delete = Register.query.filter_by(id=id).first()
+    db.session.delete(to_delete)
+    db.session.commit()
+    return redirect('/register')
+
+
 @app.route('/remove-expired', methods=['GET'])
 @login_required
 def garbage_collector():
-    garbage_bag = [material for material in Application.query.all() if material.out_date.date() < datetime.now().date()]
+    garbage_bag = [material for material in Application.query.all() if material.out_datetime < datetime.now()]
     for garbage in garbage_bag:
         db.session.delete(garbage)
 
@@ -235,10 +285,10 @@ def garbage_collector():
 @app.route('/reset-approval', methods=['GET'])
 @login_required
 def reset_approval():
-    application = [material for material in Application.query.all() if material.out_date.date() >= datetime.now().date()]
+    application = [material for material in Application.query.all() if material.out_datetime >= datetime.now()]
     for apply in application:
         apply.status = 'Processing'
-    
+
     db.session.commit()
 
     return redirect('/manage')

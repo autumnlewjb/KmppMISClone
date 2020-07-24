@@ -21,6 +21,37 @@
                         <td><input type="text" class="matrics_no" id="matrics_no" name="matrics_no"></td>
                     </tr>
                     <tr>
+                        <td><label>IC No: </label></td>
+                        <td><input type="text" class="ic_no" id="ic_no" name="ic_no"></td>
+                    </tr>
+                    <tr>
+                        <td><label>Room No: </label></td>
+                        <td><input type="text" class="room_no" id="room_no" name="room_no"></td>
+                    </tr>
+                    <tr>
+                        <td><label>Tel No: </label></td>
+                        <td><input type="text" class="tel_no" id="tel_no" name="tel_no"></td>
+                    </tr>
+                    <tr>
+                        <td><label>HP No: </label></td>
+                        <td><input type="text" class="hp_no" id="hp_no" name="hp_no"></td>
+                    </tr>
+                    <tr>
+                        <td><label>Course: </label></td>
+                        <td>
+                            <select name="course" id="course" size="1">
+                                <option value="PST - Modul 1">PST - Modul 1</option>
+                                <option value="PST - Modul 2">PST - Modul 2</option>
+                                <option value="PST - Modul 3">PST - Modul 3</option>
+                                <option value="PST - Akaun">PST - Akaun</option>
+                                <option value="PDT - Modul 1">PDT - Modul 1</option>
+                                <option value="PDT - Modul 2">PDT - Modul 2</option>
+                                <option value="PDT - Modul 3">PDT - Modul 3</option>
+                                <option value="PDT - Akaun">PDT - Akaun</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
                         <td colspan="2" style="text-align: center;"><input type="submit" class="submit" id="submit" name="submit" value="submit"></td>
                     </tr>
                 </tb>
@@ -33,6 +64,11 @@
                 <th>ID</th>
                 <th>Name</th>
                 <th>Matriks No</th>
+                <th>IC No</th>
+                <th>Room No</th>
+                <th>Tel No</th>
+                <th>HP No</th>
+                <th>Course</th>
                 <th>Admin Access</th>
             </tr>
             {% for student in students %}
@@ -40,7 +76,17 @@
                     <td>{{ student.id }}</td>
                     <td>{{ student.name }}</td>
                     <td>{{ student.matrics_no }}</td>
+                    <td>{{ student.ic_no }}</td>
+                    <td>{{ student.room_no }}</td>
+                    <td>{{ student.tel_no }}</td>
+                    <td>{{ student.hp_no }}</td>
+                    <td>{{ student.course }}</td>
                     <td>{{ student.is_admin }}</td>
+                    <td>
+                        <ul>
+                            <li><a href="/delete-user/{{student.id}}">Delete</a></li>
+                        </ul>
+                    </td>
                 </tr>
             {% endfor %}
         </table>

@@ -17,39 +17,86 @@
     </div>
     <div class="student-details">
         <table>
-            <th>
+            <tbody>
                 <tr>
-                    <td><label>NAMA: </label></td>
-                    <td>{{ student.name.upper() }}</td>
+                    <td><label>Nama: </label></td>
+                    <td>{{ student.name }}</td>
                 </tr>
                 <tr>
-                    <td><label>NOMBOR MATRIK: </label></td>
-                    <td>{{ student.matrics_no.upper() }}</td>
+                    <td><label>No. Kad Pengenalan: </label></td>
+                    <td>{{ student.ic_no }}</td>
+                    <td><label>No. Matrik: </label></td>
+                    <td>{{ student.matrics_no }}</td>
                 </tr>
-            </th>
+                <tr>
+                    <td><label>No. Bilik: </label></td>
+                    <td>{{ student.room_no }}</td>
+                    <td><label>Kursus: </label></td>
+                    <td>{{ student.course }}</td>
+                </tr>
+                <tr>
+                    <td><label>No. Telefon: </label></td>
+                    <td>{{ student.tel_no }}</td>
+                    <td><label>No Telefon Bimbit: </label></td>
+                    <td>{{ student.hp_no }}</td>
+                </tr>
+            </tbody>
         </table>
     </div>
     <div class="outing-form">
         <form action="/outing-apply" method="POST">
             <table>
                 <tr>
-                    <td>Tarikh keluar: </td>
+                    <td>Jenis Permohonan </td>
                     <td>
-                        <input type="text" value="DD" id="out-day" name="out-day" size="2">/
-                        <input type="text" value="MM" id="out-month" name="out-month" size="2">/
-                        <input type="text" value="YYYY" id="out-year" name="out-year" size="4">
+                        <select name="apply-type" id="apply-type">
+                            <option value="Outing Khas">Outing Khas</option>
+                            <option value="Bermalam Biasa">Bermalam Biasa</option>
+                            <option value="Bermalam Khas">Bermalam Khas</option>
+                        </select>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>Tarikh Keluar: </td>
+                    <td>
+                        <input type="date" id="out-date" name="out-date">
+                    </td>
+                    <td>Waktu Keluar: </td>
+                    <td>
+                        <input type="time" id="out-time" name="out-time">
                     </td>
                 </tr>
                 <tr>
-                    <td>Tarikh masuk: </td>
+                    <td>Tarikh Balik: </td>
                     <td>
-                        <input type="text" value="DD" id="in-day" name="in-day" size="2">/
-                        <input type="text" value="MM" id="in-month" name="in-month" size="2">/
-                        <input type="text" value="YYYY" id="in-year" name="in-year" size="4">
+                        <input type="date" id="in-date" name="in-date">
+                    </td>
+                    <td>Waktu Balik ke Kolej: </td>
+                    <td>
+                        <input type="time" id="in-time" name="in-time">
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2" style="text-align: center;">
+                    <td>Kenderaan: </td>
+                    <td>
+                        <input type="text" id="transport" name="transport">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Tujuan: </td>
+                    <td>
+                        <input type="text" id="aim" name="aim">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Tempat: </td>
+                    <td>
+                        <input type="text" id="place" name="place">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4" style="text-align: center;">
                         <input type="submit" name="submit" id="submit" value="Hantar" style="margin: 5px;">
                     </td>
                 </tr>

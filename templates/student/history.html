@@ -10,16 +10,22 @@
     <div class="application-table">
         <table>
             <tr>
-                <th>Application Date</th>
-                <th>Departure Date</th>
-                <th>Return Date</th>
+                <th>Apply Type</th>
+                <th>Departure DateTime</th>
+                <th>Return DateTime</th>
+                <th>Transport</th>
+                <th>Aim</th>
+                <th>Place</th>
                 <th>Status</th>
             </tr>
             {% for application in applications %}
                 <tr>
-                    <td>{{ application.datetime.date() }}</td>
-                    <td>{{ application.out_date }}</td>
-                    <td>{{ application.in_date }}</td>
+                    <td>{{ application.apply_type }}</td>
+                    <td>{{ application.out_datetime }}</td>
+                    <td>{{ application.in_datetime }}</td>
+                    <td>{{ application.transport }}</td>
+                    <td>{{ application.aim }}</td>
+                    <td>{{ application.place }}</td>
                     <td class="{{application.status.lower()}}">{{ application.status }}</td>
                 </tr>
             {% endfor %}
