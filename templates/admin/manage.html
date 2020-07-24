@@ -1,0 +1,32 @@
+{% extends 'admin/base_admin.html' %}
+
+
+{% block content %}
+<div>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Matrics No</th>
+            <th>Departure Date</th>
+            <th>Return Date</th>
+            <th>Status</th>
+            <th>Option</th>
+        </tr>
+        {% for application in applications %}
+            <tr>
+                <td>{{ application.name }}</td>
+                <td>{{ application.matrics_no }}</td>
+                <td>{{ application.out_date }}</td>
+                <td>{{ application.in_date }}</td>
+                <td class="{{application.status.lower()}}">{{ application.status }}</td>
+                <td>
+                    <ul>
+                        <li><a href="/approve/{{ application.id }}">Approve</a></li>
+                        <li><a href="/cancel/{{ application.id }}">Cancel Approval</a></li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

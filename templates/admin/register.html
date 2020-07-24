@@ -1,15 +1,8 @@
-{% extends 'base.html' %}
+{% extends 'admin/base_admin.html' %}
 
-
-{% block head %}
-
-{% endblock %}
-
-
-{% block body %}
+{% block content %}
 <div>
     <h1>Register Student</h1>
-    <a href="{{ url_for('logout') }}">Logout</a>
 </div>
 <div class="register-form">
     <form action="/register" method="POST">
@@ -29,22 +22,22 @@
             </tb>
         </table>
     </form>
-    <div>
+    <div class="registered-student">
         <table>
             <tr>
                 <th>ID</th>
                 <th>Name</th>
                 <th>Matriks No</th>
+                <th>Admin Access</th>
             </tr>
-            <tbody>
-                {% for student in students %}
-                    <tr>
-                        <td>{{ student.id }}</td>
-                        <td>{{ student.name }}</td>
-                        <td>{{ student.matrics_no }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
+            {% for student in students %}
+                <tr>
+                    <td>{{ student.id }}</td>
+                    <td>{{ student.name }}</td>
+                    <td>{{ student.matrics_no }}</td>
+                    <td>{{ student.is_admin }}</td>
+                </tr>
+            {% endfor %}
         </table>
     </div>
 </div>

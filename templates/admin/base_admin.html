@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+
+{% block body %}
+
+<div>
+    <section class="sidebar-student">
+        <div class="change-option">
+            <a href="/change/admin">Tukar peranan</a>
+        </div>
+        <div class="view-option">
+            <p><strong>admin</strong></p>
+            <p>| admin |</p>
+        </div>
+        <div class="semester-detail">
+            <p>Tahun 2020/2021</p>
+            <p>Semester 1</p>
+        </div>
+        <div class="menu">
+            <table>
+                <tbody>
+                    <tr>
+                        <td><a class="button" href="{{ url_for('admin_homepage') }}">Home</a></td>
+                    </tr>
+                    <tr>
+                        <td><a class="button" href="{{ url_for('register') }}">Register</a></td>
+                    </tr>
+                    <tr>
+                        <td><a class="button" href="{{ url_for('manage') }}">Manage</a></td>
+                    </tr>
+                    <tr>
+                        <td><a class="button" href="{{ url_for('logout') }}">Logout</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="version" style="text-align: left;">
+            <p>VERSI 3.0 13052011</p>
+        </div>
+    </section>
+    <section class="content">
+        <div>
+            {% block content %}{% endblock %}
+        </div>
+    </section>
+</div>
+
+{% endblock %}

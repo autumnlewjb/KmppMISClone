@@ -203,3 +203,41 @@ div.student-details > table td {
     font-size: 30px;
     line-height: 50px;
  }
+ 
+ div.registered-student > table {
+    border: 1px solid black;
+    border-collapse: collapse;
+    margin: 30px;
+    text-align: center;
+ }
+
+ div.registered-student > table > tbody > tr > th, div.registered-student > table > tbody > tr > td {
+    width: 100px;
+    border: 1px solid black;
+    border-collapse: collapse;
+ }
+
+ section.content > div > div > table {
+    border: 1px solid black;
+    border-collapse: collapse;
+    margin: 30px;
+    text-align: center;
+ }
+
+ section.content > div > div > table > tbody > tr > th,  section.content > div > div > table > tbody > tr > td {
+    width: 100px;
+    border: 1px solid black;
+    border-collapse: collapse;
+ }
+
+ .approved {
+    background-color: green;
+ }
+
+ .rejected {
+    background-color: red;
+ }
+
+ .processing {
+    background-color: yellow;
+ }

@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 
+
 {% block head %}
 
 {% endblock %}
 
 
 {% block body %}
-
 <div>
     <section class="sidebar">
         <div class="welcome">
@@ -21,6 +21,9 @@
             <p>Sila pilih peranan anda</p>
             <ul>
                 <li><a href="{{ url_for('student') }}">student</a></li>
+                {% if position == 'admin' %}
+                    <li><a href="{{ url_for('admin_homepage') }}">admin</a></li>
+                {% endif %}
             </ul>
         </div>
         <div class="logout">
