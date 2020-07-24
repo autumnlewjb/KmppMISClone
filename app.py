@@ -20,6 +20,7 @@ class Register(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), nullable=False)
     matrics_no = db.Column(db.String(200), nullable=False)
+    is_admin = db.Column(db.Boolean, default=False)
 
     def __repr__(self):
         return f'<student {self.id}>'
@@ -53,17 +54,20 @@ def login():
             return render_template('choose_position.html', date=dt['date'], time=dt['time'], day=dt['day'], position='student')
         elif username == 'admin' and password == 'adminkmpp':
             dt = get_datetime()
-            return render_template('choose_position.html', date=dt['date'], time=dt['time'], day=dt['day'], position='admin')
+            admin = Register.query.filter_by(matrics_no=password).first()
+            if admin.is_admin:
+                login_user(admin)
+                return render_template('choose_position.html', date=dt['date'], time=dt['time'], day=dt['day'], position='admin')
         else:
             return "Invalid username or password."
 
 
 # User's side
 # TODO: this don't work right for the admin page
-@app.route('/change', methods=['GET'])
-def change():
+@app.route('/change/<position>', methods=['GET'])
+def change(position):
     dt = get_datetime()
-    return render_template('student/homepage.html', date=dt['date'], time=dt['time'], day=dt['day'])
+    return render_template('choose_position.html', date=dt['date'], time=dt['time'], day=dt['day'], position=position)
 
 
 @app.route('/student', methods=['GET'])
@@ -122,18 +126,26 @@ def history():
 
 
 # Admin's side
+# def change():
+#     dt = get_datetime()
+#     return render_template('choose_position.html', date=dt['date'], time=dt['time'], day=dt['day'], position='admin')
+
+
 @app.route('/admin-homepage', methods=['GET'])
+@login_required
 def admin_homepage():
     return render_template('admin/homepage.html')
 
 
 @app.route('/manage', methods=['GET'])
+@login_required
 def manage():
     applications = Application.query.order_by(Application.datetime).all()
     return render_template('admin/manage.html', applications=applications)
 
 
 @app.route('/approve/<int:id>', methods=['GET'])
+@login_required
 def approve(id):
     to_be_approved = Application.query.get_or_404(id)
     to_be_approved.status = 'Approved'
@@ -144,6 +156,7 @@ def approve(id):
 
 
 @app.route('/cancel/<int:id>', methods=['GET'])
+@login_required
 def cancel(id):
     to_be_cancelled = Application.query.get_or_404(id)
     to_be_cancelled.status = 'Rejected'
@@ -154,6 +167,7 @@ def cancel(id):
 
 
 @app.route('/register', methods=['POST', 'GET'])
+@login_required
 def register():
     if request.method == 'POST':
         name = request.form['name']
