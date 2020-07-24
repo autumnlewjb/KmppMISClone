@@ -93,6 +93,8 @@ def get_number():
 def outing_login():
     if request.method == 'POST':
         matrics_no = request.form['matrics-no-field']
+        if not matrics_no:
+            return redirect('/group')
         exist = Register.query.filter_by(matrics_no=matrics_no).first()
         if not exist:
             return 'User not found'
@@ -136,12 +138,12 @@ def history():
     return render_template('student/history.html', applications=previous)
 
 
+@app.route('/group')
+def group():
+    return render_template('student/group.html')
+
+
 # Admin's side
-# def change():
-#     dt = get_datetime()
-#     return render_template('choose_position.html', date=dt['date'], time=dt['time'], day=dt['day'], position='admin')
-
-
 @app.route('/admin-homepage', methods=['GET'])
 @login_required
 def admin_homepage():
