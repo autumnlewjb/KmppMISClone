@@ -1,53 +1,30 @@
-{% extends 'student/base_student.html' %}
+{% extends 'student/base_outing.html' %}
 
-{% block content %}
-<div class="header">
-    <p> | 
-        <a href="/history">Senarai</a>
-        | 
-        <a href="/apply-outing">Tambah</a>
-        |
-        <a href="/logout">Padam</a> 
-    </p>
-    <h3>Outing</h3>
-</div>
-<div class="form-container">
-    <div class="section-title">
-        <h3>LAMAN PERMOHONAN</h3>
-    </div>
-    <div class="apply-form">
-        {% if num == 0 %}
-            <div class="choose-category">
-                <form action="/outing-login" method="POST">
-                    <ul></ul>
-                    <label>Pilihan</label>
-                    <input type="radio" id="individu" name="type" value="individu" checked>
-                    <label>Individu</label>
-                    <input type="radio" id="kumpulan" name="type" value="kumpulan">
-                    <label>Kumpulan</label>
-                    <div class="matrics-no reveal-if-active">
-                        <label>Bilangan orang: </label><input type="text" id="people-no-field" name="people-no-field" value="0">
-                        <input type="submit" id="find-no" name="find-no" value="Permohonan>>>">
-                    </div>
-                    <div class="matrics-no reveal-if-active-2">
-                        <label>No Matrik</label><input type="text" id="matrics-no-field" name="matrics-no-field" value="">
-                        <input type="submit" id="find-no" name="find-no" value="Cari">
-                        <input type="reset" id="reset-field" name="reset-field" value="Reset">
-                    </div>
-                </form>
+{% block title %}
+LAMAN PERMOHONAN
+{% endblock %}
+
+{% block outing_content %}
+
+<div class="apply-form">
+    <div class="choose-category">
+        <form action="/outing-login" method="POST">
+            <ul></ul>
+            <label>Pilihan</label>
+            <input type="radio" id="individu" name="type" value="individu" checked>
+            <label>Individu</label>
+            <input type="radio" id="kumpulan" name="type" value="kumpulan">
+            <label>Kumpulan</label>
+            <div class="matrics-no reveal-if-active">
+                <label>Bilangan orang: </label><input type="text" id="people-no-field" name="people-no-field" value="0">
+                <input type="submit" id="find-no" name="find-no" value="Permohonan>>>">
             </div>
-        {% endif %}
-        
-        <!-- <div class="matrics-no">
-            <form action="/outing-login/{{num}}" method="POST">
-                {% for i in range(num) %}
-                    <label>No Matrik</label><input type="text" id="matrics-no-field" name="matrics-no-field-{{i}}" value="">
-                    <br>
-                {% endfor %}
+            <div class="matrics-no reveal-if-active-2">
+                <label>No Matrik</label><input type="text" id="matrics-no-field" name="matrics-no-field" value="">
                 <input type="submit" id="find-no" name="find-no" value="Cari">
                 <input type="reset" id="reset-field" name="reset-field" value="Reset">
-            </form>
-        </div> -->
+            </div>
+        </form>
     </div>
 </div>
 

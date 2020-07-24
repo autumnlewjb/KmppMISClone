@@ -1,0 +1,20 @@
+{% extends 'student/base_student.html' %}
+
+{% block content %}
+<div class="header">
+    <p> | 
+        <a href="/history">Senarai</a>
+        | 
+        <a href="/outing-apply">Tambah</a>
+        |
+        <a href="/outing-login">Padam</a> 
+    </p>
+    <h3>Outing</h3>
+</div>
+<div class="form-container">
+    <div class="section-title">
+        <h3>{% block title %}{% endblock %}</h3>
+    </div>
+    {% block outing_content %}{% endblock %}
+</div>
+{% endblock %}
