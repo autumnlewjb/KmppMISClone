@@ -9,19 +9,27 @@
     <div class="application-table">
         <table>
             <tr>
+                <th>Apply Type</th>
                 <th>Name</th>
                 <th>Matrics No</th>
-                <th>Departure Date</th>
-                <th>Return Date</th>
+                <th>Departure DateTime</th>
+                <th>Return DateTime</th>
+                <th>Transport</th>
+                <th>Aim</th>
+                <th>Place</th>
                 <th>Status</th>
                 <th>Option</th>
             </tr>
             {% for application in applications %}
                 <tr>
+                    <td>{{ application.apply_type }}</td>
                     <td>{{ application.name }}</td>
                     <td>{{ application.matrics_no }}</td>
-                    <td>{{ application.out_date.date() }}</td>
-                    <td>{{ application.in_date.date() }}</td>
+                    <td>{{ application.out_datetime }}</td>
+                    <td>{{ application.in_datetime }}</td>
+                    <td>{{ application.transport }}</td>
+                    <td>{{ application.aim }}</td>
+                    <td>{{ application.place }}</td>
                     <td class="{{application.status.lower()}}">{{ application.status }}</td>
                     <td>
                         <ul>
