@@ -1,11 +1,6 @@
-{% extends 'student/base_outing.html' %}
+{% extends 'student/outing_login.html' %}
 
-{% block title %}
-LAMAN PERMOHONAN
-{% endblock %}
-
-
-{% block outing_content %}
+{% block application_form %}
 <div class="outing-form">
     <form action="/group/{{number}}" method="POST">
         <table>

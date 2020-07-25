@@ -1,11 +1,7 @@
-{% extends 'student/base_outing.html' %}
+{% extends 'student/outing_login.html' %}
 
-{% block title %}
-PERMOHONAN OUTING
-{% endblock %}
-
-{% block outing_content %}
-
+{% block application_form %}
+{% block timetable %}{% endblock %}
 <div class="student-details">
     <table>
         <tbody>
@@ -47,7 +43,6 @@ PERMOHONAN OUTING
                     </select>
                 </td>
             </tr>
-            
             <tr>
                 <td>Tarikh Keluar: </td>
                 <td>
@@ -76,14 +71,14 @@ PERMOHONAN OUTING
             </tr>
             <tr>
                 <td>Tujuan: </td>
-                <td>
-                    <input type="text" id="aim" name="aim">
+                <td colspan="3">
+                    <input type="text" id="aim" name="aim" size="40">
                 </td>
             </tr>
             <tr>
                 <td>Tempat: </td>
-                <td>
-                    <input type="text" id="place" name="place">
+                <td colspan="3">
+                    <input type="text" id="place" name="place" size="60">
                 </td>
             </tr>
             <tr>

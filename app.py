@@ -95,6 +95,7 @@ def logout():
 @app.route('/get-number', methods=['GET', 'POST'])
 def get_number():
     try:
+        logout_user()
         num = int(request.form['matrics-no-field'])
         return render_template('student/outing_login.html', num=num)
     except ValueError:
@@ -103,6 +104,7 @@ def get_number():
 
 @app.route('/outing-login', methods=['POST', 'GET'])
 def outing_login():
+    logout_user()
     if request.method == 'POST':
         if request.form['matrics-no-field']:
             matrics_no = request.form['matrics-no-field']
