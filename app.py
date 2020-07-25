@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, logout_user, login_required, current_user, LoginManager
 from date_time import get_datetime
-from datetime import datetime, time, timedelta
+from datetime import datetime, timedelta
 
 
 app = Flask(__name__)
@@ -27,6 +27,7 @@ class Register(UserMixin, db.Model):
     tel_no = db.Column(db.String(200), nullable=True)
     hp_no = db.Column(db.String(200), nullable=True)
     course = db.Column(db.String(200), nullable=True)
+    class_name = db.Column(db.String(200), nullable=True)
     is_admin = db.Column(db.Boolean, default=False)
 
     def __repr__(self):
@@ -108,16 +109,6 @@ def logout():
     return render_template('login.html')
 
 
-@app.route('/get-number', methods=['GET', 'POST'])
-def get_number():
-    try:
-        logout_user()
-        num = int(request.form['matrics-no-field'])
-        return render_template('student/outing_login.html', num=num)
-    except ValueError:
-        return redirect('/outing-login')
-
-
 @app.route('/outing-login', methods=['POST', 'GET'])
 def outing_login():
     logout_user()
@@ -172,15 +163,13 @@ def outing_apply():
             return '<h1>Application not recorded</h1>'
     else:
         dt = get_datetime()
-        timetable = TimeTable.query.filter_by(class_name='F1T05A').first()
+        timetable = TimeTable.query.filter_by(class_name=current_user.class_name).first()
         today = datetime.now().strftime('%A').lower()
         try:
             exec('timetable=timetable.{}'.format(today))
             timetable = timetable.split('/')
         except AttributeError:
             timetable = []
-            # timetable = timetable.tuesday
-            # timetable = timetable.split('/')
 
         duration = timedelta(hours=1)
         t = datetime(year=1, month=1, day=1, hour=8, minute=0)
@@ -346,6 +335,7 @@ def register():
         tel_no = request.form['tel_no']
         hp_no = request.form['hp_no']
         course = request.form['course']
+        class_name = request.form['class_name']
         new_student = Register(
             name=name,
             matrics_no=matrics_no,
@@ -353,7 +343,8 @@ def register():
             room_no=room_no,
             tel_no=tel_no,
             hp_no=hp_no,
-            course=course
+            course=course,
+            class_name=class_name
         )
 
         db.session.add(new_student)
