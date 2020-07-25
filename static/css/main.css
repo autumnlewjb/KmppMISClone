@@ -79,6 +79,7 @@ section.content {
     float: right;
     width: 80vw;
     height: 100vh;
+    overflow: scroll;
 }
 
 section.content table {
@@ -151,6 +152,7 @@ div.header > h3 {
     padding: 5px 0 5px 100px;
     width: 50%;
     margin: 0;
+    font-size: 20px;;
 }
 
 div.header > p {
@@ -201,10 +203,13 @@ div.student-details > table td {
     float: left;
     text-align: center;
  }
+
+ div.common-table > table {
+    display: inline-block;
+ }
  
  div.registered-student {
     float: right;
-    overflow: scroll;
  }
  
  div.registered-student > table {
@@ -221,7 +226,6 @@ div.student-details > table td {
  }
 
  div.application-table {
-    overflow: scroll;
     height: 80vh;
     width: 100%;
  }
@@ -281,4 +285,39 @@ input[type='radio']#individu:checked ~ .reveal-if-active-2 {
     opacity: 1;
     max-height: 100%;
     overflow: visible
+}
+
+div.quick-button-container {
+    margin: 20px;
+}
+
+.row-even {
+    background-color: rgb(170, 221, 224);
+}
+
+.row-odd {
+    background-color: rgb(163, 162, 162);
+}
+
+.row-header {
+    background-color: rgb(7, 8, 110);
+    color: white;
+}
+
+.table-title {
+    background-color: rgb(233, 233, 116);
+    font-size: 14px;
+}
+
+.index {
+    width: auto;
+}
+
+.table-content {
+    width: 300px;
+    text-align: center;
+}
+
+div.matrics-no-table > table > tbody > tr > td, div.matrics-no-table > table > tbody > tr > th {
+    text-align: center;
 }

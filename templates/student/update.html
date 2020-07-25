@@ -1,0 +1,68 @@
+{% extends 'student/base_outing.html' %}
+
+{% block title %}
+UPDATE OUTING
+{% endblock %}
+
+{% block outing_content %}
+<div class="outing-form">
+    <form action="/update-apply/{{application.id}}" method="POST">
+        <table>
+            <tr>
+                <td>Jenis Permohonan </td>
+                <td>
+                    <select name="apply-type" id="apply-type" value="{{application.apply_type}}">
+                        <option value="Outing Khas">Outing Khas</option>
+                        <option value="Bermalam Biasa">Bermalam Biasa</option>
+                        <option value="Bermalam Khas">Bermalam Khas</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Tarikh Keluar: </td>
+                <td>
+                    <input type="date" id="out-date" name="out-date" value="{{application.out_datetime.date()}}">
+                </td>
+                <td>Waktu Keluar: </td>
+                <td>
+                    <input type="time" id="out-time" name="out-time" value="{{application.out_datetime.time()}}">
+                </td>
+            </tr>
+            <tr>
+                <td>Tarikh Balik: </td>
+                <td>
+                    <input type="date" id="in-date" name="in-date" value="{{application.in_datetime.date()}}">
+                </td>
+                <td>Waktu Balik ke Kolej: </td>
+                <td>
+                    <input type="time" id="in-time" name="in-time" value="{{application.in_datetime.time()}}">
+                </td>
+            </tr>
+            <tr>
+                <td>Kenderaan: </td>
+                <td>
+                    <input type="text" id="transport" name="transport" value="{{application.transport}}">
+                </td>
+            </tr>
+            <tr>
+                <td>Tujuan: </td>
+                <td>
+                    <input type="text" id="aim" name="aim" value="{{application.aim}}">
+                </td>
+            </tr>
+            <tr>
+                <td>Tempat: </td>
+                <td>
+                    <input type="text" id="place" name="place" value="{{application.place}}">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" style="text-align: center;">
+                    <input type="submit" name="update" id="update" value="Update" style="margin: 5px;">
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+{% endblock %}

@@ -1,14 +1,75 @@
-{% extends 'student/base_outing.html' %}
+{% extends 'student/outing_login.html' %}
 
-{% block title %}
-PERMOHONAN OUTING
+{% block timetable %}
+<div class="matrics-no-table">
+    <table>
+        <tr class="table-title">
+            <th colspan="3">
+                Senarai kelas {{student.name}} <br>
+                pada hari {{day}}
+            </th>
+        </tr>
+        <tr class="row-header">
+            <th>Bil</th>
+            <th>Subjek</th>
+            <th>Masa</th>
+        </tr>
+        {% set time = [t] %}
+        {% for i in range(timetable|length) %}
+            {% if i % 2 == 0 %}
+                <tr class="row-even">
+                    <td class="index">{{ i+1 }}</td>
+                    <td class="table-content">
+                        {% if timetable[i] %}
+                            {{timetable[i]}}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td class="table-content">
+                        {{ time[0].time().isoformat('minutes') }}
+                        {% if time.append(time.pop()+duration) %}{% endif %}
+                        -
+                        {{ time[0].time().isoformat('minutes') }}
+                    </td>
+                </tr>
+            {% else %}
+                <tr class="row-odd">
+                    <td class="index">{{ i+1 }}</td>
+                    <td class="table-content">
+                        {% if timetable[i] %}
+                            {{timetable[i]}}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td class="table-content">
+                        {{ time[0].time().isoformat('minutes') }}
+                        {% if time.append(time.pop()+duration) %}{% endif %}
+                        -
+                        {{ time[0].time().isoformat('minutes') }}
+                    </td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+    </table>
+</div>
 {% endblock %}
 
-{% block outing_content %}
-
-<div class="student-details">
-    <table>
-        <tbody>
+{% block application_form %}
+<div class="outing-form student-details">
+    <form action="/outing-apply" method="POST">
+        <table>
+            <tr>
+                <td>Jenis Permohonan </td>
+                <td>
+                    <select name="apply-type" id="apply-type">
+                        <option value="Outing Khas">Outing Khas</option>
+                        <option value="Bermalam Biasa">Bermalam Biasa</option>
+                        <option value="Bermalam Khas">Bermalam Khas</option>
+                    </select>
+                </td>
+            </tr>
             <tr>
                 <td><label>Nama: </label></td>
                 <td>{{ student.name }}</td>
@@ -31,23 +92,6 @@ PERMOHONAN OUTING
                 <td><label>No Telefon Bimbit: </label></td>
                 <td>{{ student.hp_no }}</td>
             </tr>
-        </tbody>
-    </table>
-</div>
-<div class="outing-form">
-    <form action="/outing-apply" method="POST">
-        <table>
-            <tr>
-                <td>Jenis Permohonan </td>
-                <td>
-                    <select name="apply-type" id="apply-type">
-                        <option value="Outing Khas">Outing Khas</option>
-                        <option value="Bermalam Biasa">Bermalam Biasa</option>
-                        <option value="Bermalam Khas">Bermalam Khas</option>
-                    </select>
-                </td>
-            </tr>
-            
             <tr>
                 <td>Tarikh Keluar: </td>
                 <td>
@@ -76,14 +120,14 @@ PERMOHONAN OUTING
             </tr>
             <tr>
                 <td>Tujuan: </td>
-                <td>
-                    <input type="text" id="aim" name="aim">
+                <td colspan="3">
+                    <input type="text" id="aim" name="aim" size="40">
                 </td>
             </tr>
             <tr>
                 <td>Tempat: </td>
-                <td>
-                    <input type="text" id="place" name="place">
+                <td colspan="3">
+                    <input type="text" id="place" name="place" size="60">
                 </td>
             </tr>
             <tr>

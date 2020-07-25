@@ -1,0 +1,86 @@
+{% extends 'student/outing_login.html' %}
+
+{% block application_form %}
+<div class="outing-form">
+    <form action="/group/{{number}}" method="POST">
+        <table>
+            <tr>
+                <td>Jenis Permohonan </td>
+                <td>
+                    <select name="apply-type" id="apply-type">
+                        <option value="Outing Khas">Outing Khas</option>
+                        <option value="Bermalam Biasa">Bermalam Biasa</option>
+                        <option value="Bermalam Khas">Bermalam Khas</option>
+                    </select>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Tarikh Keluar: </td>
+                <td>
+                    <input type="date" id="out-date" name="out-date">
+                </td>
+                <td>Waktu Keluar: </td>
+                <td>
+                    <input type="time" id="out-time" name="out-time">
+                </td>
+            </tr>
+            <tr>
+                <td>Tarikh Balik: </td>
+                <td>
+                    <input type="date" id="in-date" name="in-date">
+                </td>
+                <td>Waktu Balik ke Kolej: </td>
+                <td>
+                    <input type="time" id="in-time" name="in-time">
+                </td>
+            </tr>
+            <tr>
+                <td>Kenderaan: </td>
+                <td>
+                    <input type="text" id="transport" name="transport">
+                </td>
+            </tr>
+            <tr>
+                <td>Tujuan: </td>
+                <td colspan="3">
+                    <input type="text" id="aim" name="aim" size="40">
+                </td>
+            </tr>
+            <tr>
+                <td>Tempat: </td>
+                <td colspan="3">
+                    <input type="text" id="place" name="place" size="60">
+                </td>
+            </tr>
+        </table>
+        <div class="matrics-no-table">
+            <table>
+                    <tr>
+                        <th>Bil</th>
+                        <th>No Matrik</th>
+                    </tr>
+                    {% for i in range(number) %}
+                        {% if i % 2 == 0 %}
+                            <tr class="row-even">
+                                <td class="index">{{i+1}}</td>
+                                <td class="table-content"><input type="text" name="matrics-no-{{i}}" id="matrics-no"></td>
+                            </tr>
+                        {% else %}
+                            <tr class="row-odd">
+                                <td class="index">{{i+1}}</td>
+                                <td class="table-content"><input type="text" name="matrics-no-{{i}}" id="matrics-no"></td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                    <tr>
+                        <td colspan="2" style="text-align: center;">
+                            <input type="submit" name="submit" id="submit" value="Hantar" style="margin: 5px;">
+                        </td>
+                    </tr>
+            </table>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

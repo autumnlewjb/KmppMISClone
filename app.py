@@ -2,12 +2,14 @@ from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, logout_user, login_required, current_user, LoginManager
 from date_time import get_datetime
-from datetime import datetime
+from datetime import datetime, time, timedelta
 
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///register.db'
-app.config['SQLALCHEMY_BINDS'] = {'application': 'sqlite:///application.db'}
+app.config['SQLALCHEMY_BINDS'] = {
+    'application': 'sqlite:///application.db',
+    'timetable': 'sqlite:///timetable.db'}
 app.config['SECRET_KEY'] = 'lewjb2010'
 db = SQLAlchemy(app)
 
@@ -46,6 +48,20 @@ class Application(db.Model):
     status = db.Column(db.String(100), nullable=False, default='Processing')
 
 
+class TimeTable(db.Model):
+    __bind_key__ = 'timetable'
+    id = db.Column(db.Integer, primary_key=True)
+    class_name = db.Column(db.String(200), nullable=False)
+    monday = db.Column(db.String(1000), nullable=True)
+    tuesday = db.Column(db.String(1000), nullable=True)
+    wednesday = db.Column(db.String(1000), nullable=True)
+    thursday = db.Column(db.String(1000), nullable=True)
+    friday = db.Column(db.String(1000), nullable=True)
+
+    def __repr__(self):
+        return f'<TimeTable for {self.class_name}'
+
+
 @login_manager.user_loader
 def load_user(id):
     return Register.query.get(id)
@@ -82,6 +98,7 @@ def change(position):
 
 @app.route('/student', methods=['GET'])
 def student():
+    logout_user()
     return render_template('student/homepage.html')
 
 
@@ -94,6 +111,7 @@ def logout():
 @app.route('/get-number', methods=['GET', 'POST'])
 def get_number():
     try:
+        logout_user()
         num = int(request.form['matrics-no-field'])
         return render_template('student/outing_login.html', num=num)
     except ValueError:
@@ -102,20 +120,23 @@ def get_number():
 
 @app.route('/outing-login', methods=['POST', 'GET'])
 def outing_login():
+    logout_user()
     if request.method == 'POST':
-        matrics_no = request.form['matrics-no-field']
-        if not matrics_no:
-            return redirect('/group')
-        exist = Register.query.filter_by(matrics_no=matrics_no).first()
-        if not exist:
-            return 'User not found'
+        if request.form['matrics-no-field']:
+            matrics_no = request.form['matrics-no-field']
+            exist = Register.query.filter_by(matrics_no=matrics_no).first()
+            if not exist:
+                return 'User not found'
+            else:
+                login_user(exist)
+                print('logged in')
+                return redirect('/outing-apply')
         else:
-            login_user(exist)
-            print('logged in')
-            return redirect('/outing-apply')
+            no = request.form['people-no-field']
+            return redirect(f'/group/{no}')
     else:
         logout_user()
-        return render_template('student/outing_login.html', num=0)
+        return render_template('student/outing_login.html')
 
 
 @app.route('/outing-apply', methods=['POST', 'GET'])
@@ -124,7 +145,6 @@ def outing_apply():
     student = current_user
     if request.method == 'POST':
         try:
-            print(request.form['in-date'])
             in_date = list(map(int, request.form['in-date'].split('-')))
             out_date = list(map(int, request.form['out-date'].split('-')))
             in_time = list(map(int, request.form['in-time'].split(':')))
@@ -151,7 +171,20 @@ def outing_apply():
         except ValueError:
             return '<h1>Application not recorded</h1>'
     else:
-        return render_template('student/outing_apply.html', student=current_user)
+        dt = get_datetime()
+        timetable = TimeTable.query.filter_by(class_name='F1T05A').first()
+        today = datetime.now().strftime('%A').lower()
+        try:
+            exec('timetable=timetable.{}'.format(today))
+            timetable = timetable.split('/')
+        except AttributeError:
+            timetable = []
+            # timetable = timetable.tuesday
+            # timetable = timetable.split('/')
+
+        duration = timedelta(hours=1)
+        t = datetime(year=1, month=1, day=1, hour=8, minute=0)
+        return render_template('student/outing_apply.html', student=current_user, timetable=timetable, day=dt['day'], t=t, duration=duration)
 
 
 @app.route('/application-successful', methods=['GET', 'POST'])
@@ -168,9 +201,78 @@ def history():
     return render_template('student/history.html', applications=previous)
 
 
-@app.route('/group')
-def group():
-    return render_template('student/group.html')
+@app.route('/group/<int:num>', methods=['POST','GET'])
+def group(num):
+    if request.method == 'POST':
+        not_exist = list()
+        for i in range(num):
+            matrics_no = request.form['matrics-no-{}'.format(i)]
+            exist = Register.query.filter_by(matrics_no=matrics_no).first()
+            if exist:
+                in_date = list(map(int, request.form['in-date'].split('-')))
+                out_date = list(map(int, request.form['out-date'].split('-')))
+                in_time = list(map(int, request.form['in-time'].split(':')))
+                out_time = list(map(int, request.form['out-time'].split(':')))
+                out_datetime = datetime(year=out_date[0], month=out_date[1], day=out_date[2], hour=out_time[0], minute=out_time[1])
+                in_datetime = datetime(year=in_date[0], month=in_date[1], day=in_date[2], hour=in_time[0], minute=in_time[1])
+                transport = request.form['transport']
+                aim = request.form['aim']
+                place = request.form['place']
+                apply_type = request.form['apply-type']
+                new_application = Application(
+                    name=exist.name,
+                    matrics_no=exist.matrics_no,
+                    out_datetime=out_datetime,
+                    in_datetime=in_datetime,
+                    transport=transport,
+                    aim=aim,
+                    place=place,
+                    apply_type=apply_type
+                )
+                db.session.add(new_application)
+                db.session.commit()
+            else:
+                not_exist.append(matrics_no)
+        if len(not_exist):
+            return 'User not exist: {}'.format(not_exist)
+        else:
+            return redirect('/application-successful')
+    else:
+        return render_template('student/group.html', number=num)
+
+
+@app.route('/delete-apply/<int:id>', methods=['GET'])
+def delete_apply(id):
+    to_delete = Application.query.filter_by(id=id).first()
+    db.session.delete(to_delete)
+    db.session.commit()
+
+    return redirect('/history')
+
+
+@app.route('/update-apply/<int:id>', methods=['GET', 'POST'])
+def update_apply(id):
+    to_update = Application.query.filter_by(id=id).first()
+    if request.method == 'POST':
+        try:
+            in_date = list(map(int, request.form['in-date'].split('-')))
+            out_date = list(map(int, request.form['out-date'].split('-')))
+            in_time = list(map(int, request.form['in-time'].split(':')))
+            out_time = list(map(int, request.form['out-time'].split(':')))
+            to_update.out_datetime = datetime(year=out_date[0], month=out_date[1], day=out_date[2], hour=out_time[0], minute=out_time[1])
+            to_update.in_datetime = datetime(year=in_date[0], month=in_date[1], day=in_date[2], hour=in_time[0], minute=in_time[1])
+            to_update.transport = request.form['transport']
+            to_update.aim = request.form['aim']
+            to_update.place = request.form['place']
+            to_update.apply_type = request.form['apply-type']
+            to_update.status = "Processing"
+
+            db.session.commit()
+            return redirect('/history')
+        except ValueError:
+            return '<h1>Application not recorded</h1>'
+    else:
+        return render_template('student/update.html', application=to_update)
 
 
 # Admin's side
@@ -269,6 +371,24 @@ def delete_user(id):
     db.session.delete(to_delete)
     db.session.commit()
     return redirect('/register')
+
+
+@app.route('/update-user/<int:id>', methods=['GET', 'POST'])
+def update_user(id):
+    to_update = Register.query.filter_by(id=id).first()
+    if request.method == 'POST':
+        to_update.name = request.form['name']
+        to_update.matrics_no = request.form['matrics_no']
+        to_update.ic_no = request.form['ic_no']
+        to_update.room_no = request.form['room_no']
+        to_update.tel_no = request.form['tel_no']
+        to_update.hp_no = request.form['hp_no']
+        to_update.course = request.form['course']
+
+        db.session.commit()
+        return redirect('/register')
+    else:
+        return render_template('admin/update.html', student=to_update)
 
 
 @app.route('/remove-expired', methods=['GET'])
