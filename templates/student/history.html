@@ -1,43 +1,41 @@
-{% extends 'student/base_student.html' %}
+{% extends 'student/base_outing.html' %}
 
+{% block title %}
+Application History
+{% endblock %}
 
-{% block content %}
+{% block outing_content %}
 
-<div class="form-container">
-    <div class="section-title">
-        <h3>Application History</h3>
-    </div>
-    <div class="application-table">
-        <table>
+<div class="application-table">
+    <table>
+        <tr>
+            <th>Apply Type</th>
+            <th>Departure DateTime</th>
+            <th>Return DateTime</th>
+            <th>Transport</th>
+            <th>Aim</th>
+            <th>Place</th>
+            <th>Status</th>
+            <th>Option</th>
+        </tr>
+        {% for application in applications %}
             <tr>
-                <th>Apply Type</th>
-                <th>Departure DateTime</th>
-                <th>Return DateTime</th>
-                <th>Transport</th>
-                <th>Aim</th>
-                <th>Place</th>
-                <th>Status</th>
-                <th>Option</th>
+                <td>{{ application.apply_type }}</td>
+                <td>{{ application.out_datetime }}</td>
+                <td>{{ application.in_datetime }}</td>
+                <td>{{ application.transport }}</td>
+                <td>{{ application.aim }}</td>
+                <td>{{ application.place }}</td>
+                <td class="{{application.status.lower()}}">{{ application.status }}</td>
+                <td>
+                    <ul>
+                        <li><a href="/delete-apply/{{application.id}}">Delete</a></li>
+                        <li><a href="/update-apply/{{application.id}}">Update</a></li>
+                    </ul>
+                </td>
             </tr>
-            {% for application in applications %}
-                <tr>
-                    <td>{{ application.apply_type }}</td>
-                    <td>{{ application.out_datetime }}</td>
-                    <td>{{ application.in_datetime }}</td>
-                    <td>{{ application.transport }}</td>
-                    <td>{{ application.aim }}</td>
-                    <td>{{ application.place }}</td>
-                    <td class="{{application.status.lower()}}">{{ application.status }}</td>
-                    <td>
-                        <ul>
-                            <li><a href="/delete-apply/{{application.id}}">Delete</a></li>
-                            <li><a href="/update-apply/{{application.id}}">Update</a></li>
-                        </ul>
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
-    </div>
+        {% endfor %}
+    </table>
 </div>
 
 {% endblock %}

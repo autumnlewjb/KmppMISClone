@@ -2,12 +2,14 @@ from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, logout_user, login_required, current_user, LoginManager
 from date_time import get_datetime
-from datetime import datetime
+from datetime import datetime, time, timedelta
 
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///register.db'
-app.config['SQLALCHEMY_BINDS'] = {'application': 'sqlite:///application.db'}
+app.config['SQLALCHEMY_BINDS'] = {
+    'application': 'sqlite:///application.db',
+    'timetable': 'sqlite:///timetable.db'}
 app.config['SECRET_KEY'] = 'lewjb2010'
 db = SQLAlchemy(app)
 
@@ -44,6 +46,20 @@ class Application(db.Model):
     aim = db.Column(db.String(200), nullable=False)
     place = db.Column(db.String(200), nullable=False)
     status = db.Column(db.String(100), nullable=False, default='Processing')
+
+
+class TimeTable(db.Model):
+    __bind_key__ = 'timetable'
+    id = db.Column(db.Integer, primary_key=True)
+    class_name = db.Column(db.String(200), nullable=False)
+    monday = db.Column(db.String(1000), nullable=True)
+    tuesday = db.Column(db.String(1000), nullable=True)
+    wednesday = db.Column(db.String(1000), nullable=True)
+    thursday = db.Column(db.String(1000), nullable=True)
+    friday = db.Column(db.String(1000), nullable=True)
+
+    def __repr__(self):
+        return f'<TimeTable for {self.class_name}'
 
 
 @login_manager.user_loader
@@ -120,7 +136,7 @@ def outing_login():
             return redirect(f'/group/{no}')
     else:
         logout_user()
-        return render_template('student/outing_login.html', num=0)
+        return render_template('student/outing_login.html')
 
 
 @app.route('/outing-apply', methods=['POST', 'GET'])
@@ -155,7 +171,20 @@ def outing_apply():
         except ValueError:
             return '<h1>Application not recorded</h1>'
     else:
-        return render_template('student/outing_apply.html', student=current_user)
+        dt = get_datetime()
+        timetable = TimeTable.query.filter_by(class_name='F1T05A').first()
+        today = datetime.now().strftime('%A').lower()
+        try:
+            exec('timetable=timetable.{}'.format(today))
+            timetable = timetable.split('/')
+        except AttributeError:
+            timetable = []
+            # timetable = timetable.tuesday
+            # timetable = timetable.split('/')
+
+        duration = timedelta(hours=1)
+        t = datetime(year=1, month=1, day=1, hour=8, minute=0)
+        return render_template('student/outing_apply.html', student=current_user, timetable=timetable, day=dt['day'], t=t, duration=duration)
 
 
 @app.route('/application-successful', methods=['GET', 'POST'])
