@@ -7,7 +7,7 @@ LAMAN PERMOHONAN
 
 {% block outing_content %}
 <div class="outing-form">
-    <form action="/outing-apply" method="POST">
+    <form action="/group/{{number}}" method="POST">
         <table>
             <tr>
                 <td>Jenis Permohonan </td>
@@ -58,29 +58,28 @@ LAMAN PERMOHONAN
                     <input type="text" id="place" name="place">
                 </td>
             </tr>
-            <tr>
-                <td colspan="4" style="text-align: center;">
-                    <input type="submit" name="submit" id="submit" value="Hantar" style="margin: 5px;">
-                </td>
-            </tr>
         </table>
+        <div class='outing-form'>
+            <table>
+                    <tr>
+                        <th>Bil</th>
+                        <th>No Matrik</th>
+                    </tr>
+                    {% for i in range(number) %}
+                        <tr>
+                            <td>{{i+1}}</td>
+                            <td><input type="text" name="matrics-no-{{i}}" id="matrics-no"></td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td colspan="2" style="text-align: center;">
+                            <input type="submit" name="submit" id="submit" value="Hantar" style="margin: 5px;">
+                        </td>
+                    </tr>
+            </table>
+        </div>
     </form>
 </div>
-<div class='common-table'>
-    <form action="/group/{{number}}" method="POST">
-        <table>
-            <tr>
-                <th>Bil</th>
-                <th>No Matrik</th>
-            </tr>
-            {% for i in range(number) %}
-                <tr>
-                    <td>{{i+1}}</td>
-                    <td><input type="text" name="matrics-no-{{i}}" id="matrics-no"></td>
-                </tr>
-            {% endfor %}
-        </table>
-    </form>
-</div>
+
 
 {% endblock %}

@@ -151,6 +151,7 @@ div.header > h3 {
     padding: 5px 0 5px 100px;
     width: 50%;
     margin: 0;
+    font-size: 20px;;
 }
 
 div.header > p {
@@ -200,6 +201,10 @@ div.student-details > table td {
  div.common-table {
     float: left;
     text-align: center;
+ }
+
+ div.common-table > table {
+    display: inline-block;
  }
  
  div.registered-student {
@@ -282,3 +287,9 @@ input[type='radio']#individu:checked ~ .reveal-if-active-2 {
     max-height: 100%;
     overflow: visible
 }
+
+div.quick-button-container {
+    margin: 20px;
+}
+
+div.header

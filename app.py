@@ -82,6 +82,7 @@ def change(position):
 
 @app.route('/student', methods=['GET'])
 def student():
+    logout_user()
     return render_template('student/homepage.html')
 
 
@@ -170,15 +171,42 @@ def history():
     return render_template('student/history.html', applications=previous)
 
 
-@app.route('/group/<int:num>')
+@app.route('/group/<int:num>', methods=['POST','GET'])
 def group(num):
     if request.method == 'POST':
+        not_exist = list()
         for i in range(num):
             matrics_no = request.form['matrics-no-{}'.format(i)]
-            exist = Register.query.filter_by(matrics_no=matrics_no)
+            exist = Register.query.filter_by(matrics_no=matrics_no).first()
             if exist:
-                pass
-            # TODO: continue here
+                in_date = list(map(int, request.form['in-date'].split('-')))
+                out_date = list(map(int, request.form['out-date'].split('-')))
+                in_time = list(map(int, request.form['in-time'].split(':')))
+                out_time = list(map(int, request.form['out-time'].split(':')))
+                out_datetime = datetime(year=out_date[0], month=out_date[1], day=out_date[2], hour=out_time[0], minute=out_time[1])
+                in_datetime = datetime(year=in_date[0], month=in_date[1], day=in_date[2], hour=in_time[0], minute=in_time[1])
+                transport = request.form['transport']
+                aim = request.form['aim']
+                place = request.form['place']
+                apply_type = request.form['apply-type']
+                new_application = Application(
+                    name=exist.name,
+                    matrics_no=exist.matrics_no,
+                    out_datetime=out_datetime,
+                    in_datetime=in_datetime,
+                    transport=transport,
+                    aim=aim,
+                    place=place,
+                    apply_type=apply_type
+                )
+                db.session.add(new_application)
+                db.session.commit()
+            else:
+                not_exist.append(matrics_no)
+        if len(not_exist):
+            return 'User not exist: {}'.format(not_exist)
+        else:
+            return redirect('/application-successful')
     else:
         return render_template('student/group.html', number=num)
 
