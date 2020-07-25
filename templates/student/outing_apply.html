@@ -1,10 +1,21 @@
 {% extends 'student/outing_login.html' %}
 
-{% block application_form %}
 {% block timetable %}{% endblock %}
-<div class="student-details">
-    <table>
-        <tbody>
+
+{% block application_form %}
+<div class="outing-form student-details">
+    <form action="/outing-apply" method="POST">
+        <table>
+            <tr>
+                <td>Jenis Permohonan </td>
+                <td>
+                    <select name="apply-type" id="apply-type">
+                        <option value="Outing Khas">Outing Khas</option>
+                        <option value="Bermalam Biasa">Bermalam Biasa</option>
+                        <option value="Bermalam Khas">Bermalam Khas</option>
+                    </select>
+                </td>
+            </tr>
             <tr>
                 <td><label>Nama: </label></td>
                 <td>{{ student.name }}</td>
@@ -26,22 +37,6 @@
                 <td>{{ student.tel_no }}</td>
                 <td><label>No Telefon Bimbit: </label></td>
                 <td>{{ student.hp_no }}</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<div class="outing-form">
-    <form action="/outing-apply" method="POST">
-        <table>
-            <tr>
-                <td>Jenis Permohonan </td>
-                <td>
-                    <select name="apply-type" id="apply-type">
-                        <option value="Outing Khas">Outing Khas</option>
-                        <option value="Bermalam Biasa">Bermalam Biasa</option>
-                        <option value="Bermalam Khas">Bermalam Khas</option>
-                    </select>
-                </td>
             </tr>
             <tr>
                 <td>Tarikh Keluar: </td>
