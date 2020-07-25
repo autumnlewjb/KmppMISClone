@@ -28,7 +28,12 @@
                     <td>{{ application.aim }}</td>
                     <td>{{ application.place }}</td>
                     <td class="{{application.status.lower()}}">{{ application.status }}</td>
-                    <td><a href="/delete-apply/{{application.id}}">Delete</a></td>
+                    <td>
+                        <ul>
+                            <li><a href="/delete-apply/{{application.id}}">Delete</a></li>
+                            <li><a href="/update-apply/{{application.id}}">Update</a></li>
+                        </ul>
+                    </td>
                 </tr>
             {% endfor %}
         </table>

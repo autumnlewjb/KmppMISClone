@@ -219,6 +219,31 @@ def delete_apply(id):
     return redirect('/history')
 
 
+@app.route('/update-apply/<int:id>', methods=['GET', 'POST'])
+def update_apply(id):
+    to_update = Application.query.filter_by(id=id).first()
+    if request.method == 'POST':
+        try:
+            in_date = list(map(int, request.form['in-date'].split('-')))
+            out_date = list(map(int, request.form['out-date'].split('-')))
+            in_time = list(map(int, request.form['in-time'].split(':')))
+            out_time = list(map(int, request.form['out-time'].split(':')))
+            to_update.out_datetime = datetime(year=out_date[0], month=out_date[1], day=out_date[2], hour=out_time[0], minute=out_time[1])
+            to_update.in_datetime = datetime(year=in_date[0], month=in_date[1], day=in_date[2], hour=in_time[0], minute=in_time[1])
+            to_update.transport = request.form['transport']
+            to_update.aim = request.form['aim']
+            to_update.place = request.form['place']
+            to_update.apply_type = request.form['apply-type']
+            to_update.status = "Processing"
+
+            db.session.commit()
+            return redirect('/history')
+        except ValueError:
+            return '<h1>Application not recorded</h1>'
+    else:
+        return render_template('student/update.html', application=to_update)
+
+
 # Admin's side
 @app.route('/admin-homepage', methods=['GET'])
 @login_required
