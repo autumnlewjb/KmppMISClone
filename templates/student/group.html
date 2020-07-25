@@ -43,28 +43,35 @@
             </tr>
             <tr>
                 <td>Tujuan: </td>
-                <td>
-                    <input type="text" id="aim" name="aim">
+                <td colspan="3">
+                    <input type="text" id="aim" name="aim" size="40">
                 </td>
             </tr>
             <tr>
                 <td>Tempat: </td>
-                <td>
-                    <input type="text" id="place" name="place">
+                <td colspan="3">
+                    <input type="text" id="place" name="place" size="60">
                 </td>
             </tr>
         </table>
-        <div class='outing-form'>
+        <div class="matrics-no-table">
             <table>
                     <tr>
                         <th>Bil</th>
                         <th>No Matrik</th>
                     </tr>
                     {% for i in range(number) %}
-                        <tr>
-                            <td>{{i+1}}</td>
-                            <td><input type="text" name="matrics-no-{{i}}" id="matrics-no"></td>
-                        </tr>
+                        {% if i % 2 == 0 %}
+                            <tr class="row-even">
+                                <td class="index">{{i+1}}</td>
+                                <td class="table-content"><input type="text" name="matrics-no-{{i}}" id="matrics-no"></td>
+                            </tr>
+                        {% else %}
+                            <tr class="row-odd">
+                                <td class="index">{{i+1}}</td>
+                                <td class="table-content"><input type="text" name="matrics-no-{{i}}" id="matrics-no"></td>
+                            </tr>
+                        {% endif %}
                     {% endfor %}
                     <tr>
                         <td colspan="2" style="text-align: center;">

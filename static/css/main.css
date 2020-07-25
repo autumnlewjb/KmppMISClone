@@ -291,3 +291,28 @@ input[type='radio']#individu:checked ~ .reveal-if-active-2 {
 div.quick-button-container {
     margin: 20px;
 }
+
+.row-even {
+    background-color: rgb(170, 221, 224);
+}
+
+.row-odd {
+    background-color: rgb(163, 162, 162);
+}
+
+.row-header {
+    background-color: rgb(238, 238, 82);
+}
+
+.index {
+    width: auto;
+}
+
+.table-content {
+    width: 300px;
+    text-align: center;
+}
+
+div.matrics-no-table > table > tbody > tr > td, div.matrics-no-table > table > tbody > tr > th {
+    text-align: center;
+}
