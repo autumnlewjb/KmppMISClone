@@ -93,12 +93,12 @@ def login():
 # TODO: temporarily make it log out, find other solution
 @app.route('/change/<position>', methods=['GET'])
 def change(position):
-    return redirect('/logout')
+    dt = get_datetime()
+    return render_template('choose_position.html', date=dt['date'], time=dt['time'], day=dt['day'], current_user=current_user)
 
 
 @app.route('/student', methods=['GET'])
 def student():
-    logout_user()
     return render_template('student/homepage.html')
 
 
@@ -111,7 +111,6 @@ def logout():
 @app.route('/get-number', methods=['GET', 'POST'])
 def get_number():
     try:
-        logout_user()
         num = int(request.form['matrics-no-field'])
         return render_template('student/outing_login.html', num=num)
     except ValueError:
@@ -120,7 +119,6 @@ def get_number():
 
 @app.route('/outing-login', methods=['POST', 'GET'])
 def outing_login():
-    logout_user()
     if request.method == 'POST':
         if request.form['matrics-no-field']:
             matrics_no = request.form['matrics-no-field']
@@ -135,7 +133,6 @@ def outing_login():
             no = request.form['people-no-field']
             return redirect(f'/group/{no}')
     else:
-        logout_user()
         return render_template('student/outing_login.html')
 
 
@@ -190,7 +187,6 @@ def outing_apply():
 @app.route('/application-successful', methods=['GET', 'POST'])
 @login_required
 def successful():
-    logout_user()
     return render_template('student/successful.html', student=current_user)
 
 

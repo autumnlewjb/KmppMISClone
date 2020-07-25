@@ -21,7 +21,12 @@ LAMAN PERMOHONAN
             </div>
             <div class="matrics-no reveal-if-active-2">
                 <label>No Matrik</label><input type="text" id="matrics-no-field" name="matrics-no-field" value="">
-                <input type="submit" id="find-no" name="find-no" value="Cari">
+                <!-- <input type="submit" id="find-no" name="find-no" value="Cari"> -->
+                {% if current_user and current_user.is_admin %}
+                    <input type="submit" id="find-no" name="find-no" value="Cari" disabled>
+                {% else %}
+                    <input type="submit" id="find-no" name="find-no" value="Cari">
+                {% endif %}
                 <input type="reset" id="reset-field" name="reset-field" value="Reset">
             </div>
         </form>
