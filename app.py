@@ -127,7 +127,6 @@ def outing_apply():
     student = current_user
     if request.method == 'POST':
         try:
-            print(request.form['in-date'])
             in_date = list(map(int, request.form['in-date'].split('-')))
             out_date = list(map(int, request.form['out-date'].split('-')))
             in_time = list(map(int, request.form['in-time'].split(':')))
@@ -209,6 +208,15 @@ def group(num):
             return redirect('/application-successful')
     else:
         return render_template('student/group.html', number=num)
+
+
+@app.route('/delete-apply/<int:id>', methods=['GET'])
+def delete_apply(id):
+    to_delete = Application.query.filter_by(id=id).first()
+    db.session.delete(to_delete)
+    db.session.commit()
+
+    return redirect('/history')
 
 
 # Admin's side
@@ -307,6 +315,24 @@ def delete_user(id):
     db.session.delete(to_delete)
     db.session.commit()
     return redirect('/register')
+
+
+@app.route('/update-user/<int:id>', methods=['GET', 'POST'])
+def update_user(id):
+    to_update = Register.query.filter_by(id=id).first()
+    if request.method == 'POST':
+        to_update.name = request.form['name']
+        to_update.matrics_no = request.form['matrics_no']
+        to_update.ic_no = request.form['ic_no']
+        to_update.room_no = request.form['room_no']
+        to_update.tel_no = request.form['tel_no']
+        to_update.hp_no = request.form['hp_no']
+        to_update.course = request.form['course']
+
+        db.session.commit()
+        return redirect('/register')
+    else:
+        return render_template('admin/update.html', student=to_update)
 
 
 @app.route('/remove-expired', methods=['GET'])

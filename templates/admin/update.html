@@ -1,0 +1,62 @@
+{% extends 'admin/base_admin.html' %}
+
+{% block content %}
+<div class="form-container">
+    <div class="section-title">
+        <h3>Update Student</h3>
+    </div>
+    <div class="register-form">
+        <form action="/update-user/{{student.id}}" method="POST">
+            <table>
+                <tb>
+                    <tr>
+                        <th colspan="2" style="text-align: center;">New Student</th>
+                    </tr>
+                    <tr>
+                        <td><label>Name: </label></td>
+                        <td><input type="text" class="name" id="name" name="name" value="{{student.name}}"></td>
+                    </tr>
+                    <tr>
+                        <td><label>Matrics No: </label></td>
+                        <td><input type="text" class="matrics_no" id="matrics_no" name="matrics_no" value="{{student.matrics_no}}"></td>
+                    </tr>
+                    <tr>
+                        <td><label>IC No: </label></td>
+                        <td><input type="text" class="ic_no" id="ic_no" name="ic_no" value="{{student.ic_no}}"></td>
+                    </tr>
+                    <tr>
+                        <td><label>Room No: </label></td>
+                        <td><input type="text" class="room_no" id="room_no" name="room_no" value="{{student.room_no}}"></td>
+                    </tr>
+                    <tr>
+                        <td><label>Tel No: </label></td>
+                        <td><input type="text" class="tel_no" id="tel_no" name="tel_no" value="{{student.tel_no}}"></td>
+                    </tr>
+                    <tr>
+                        <td><label>HP No: </label></td>
+                        <td><input type="text" class="hp_no" id="hp_no" name="hp_no" value="{{student.hp_no}}"></td>
+                    </tr>
+                    <tr>
+                        <td><label>Course: </label></td>
+                        <td>
+                            <select name="course" id="course" size="1" value="{{student.course}}">
+                                <option value="PST - Modul 1">PST - Modul 1</option>
+                                <option value="PST - Modul 2">PST - Modul 2</option>
+                                <option value="PST - Modul 3">PST - Modul 3</option>
+                                <option value="PST - Akaun">PST - Akaun</option>
+                                <option value="PDT - Modul 1">PDT - Modul 1</option>
+                                <option value="PDT - Modul 2">PDT - Modul 2</option>
+                                <option value="PDT - Modul 3">PDT - Modul 3</option>
+                                <option value="PDT - Akaun">PDT - Akaun</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: center;"><input type="submit" class="update" id="update" name="update" value="update"></td>
+                    </tr>
+                </tb>
+            </table>
+        </form>
+    </div>
+</div>
+{% endblock %}
